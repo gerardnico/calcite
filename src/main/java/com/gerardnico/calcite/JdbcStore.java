@@ -21,7 +21,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Jdbc connection and method inside a Calcite environment
+ * Main entry for every Jdbc related operation inside a Calcite environment
+ *
  */
 public class JdbcStore {
 
@@ -71,6 +72,10 @@ public class JdbcStore {
         );
     }
 
+    /**
+     * Create the calcite schema from the data source
+     * @return
+     */
     private SchemaPlus getOrCreateDefaultSchema() {
         if (defaultSchema == null) {
             SchemaPlus rootSchema = Frameworks.createRootSchema(true);
@@ -91,12 +96,12 @@ public class JdbcStore {
     }
 
     /**
-     * Transform a regular expression into sql
-     *
+     * After having create a {@link RelNode regular expression} with the  {@link #getRelBuilder() builder},
+     * you can transform it into sql
      * @param relNode
-     * @return
+     * @return the sql representation of the relNode
      */
-    public String relNodeToSql(RelNode relNode) {
+    public String translateRelNodeToSql(RelNode relNode) {
         try {
             SqlDialect dialect = SqlDialectFactoryImpl.INSTANCE.create(getConnection().getMetaData());
             SqlPrettyWriter sqlWriter = new SqlPrettyWriter();
@@ -108,8 +113,12 @@ public class JdbcStore {
         }
     }
 
-    public void executeAndPrintQuery(String sql) {
-        try (ResultSet resultSet = getConnection().createStatement().executeQuery(sql)) {
+    /**
+     * Execute a print a sql query
+     * @param sqlQuery
+     */
+    public void executeAndPrintQuery(String sqlQuery) {
+        try (ResultSet resultSet = getConnection().createStatement().executeQuery(sqlQuery)) {
             print(resultSet);
         } catch (SQLException e) {
             System.out.println("FAILED! - " + e.getMessage());
@@ -117,6 +126,10 @@ public class JdbcStore {
         }
     }
 
+    /**
+     * An utility function to print a resultSet
+     * @param resultSet
+     */
     public static void print(ResultSet resultSet) {
         try {
             StringBuilder stringBuilder = new StringBuilder();
@@ -134,14 +147,14 @@ public class JdbcStore {
     }
 
     /**
-     *   * Translate a relnode into a query
-     *   * Execute it
-     *   * And print it
+     * An utility Function that:
+     *   * Translates a relnode into a query via {@link #translateRelNodeToSql(RelNode)}
+     *   * Execute it and print it via {@link #executeAndPrintQuery(String)}
      * @param relNode
      */
-    public void executeRelNodeAndPrint(RelNode relNode) {
+    public void translateRelNodeToSqlExecuteAndPrint(RelNode relNode) {
         // Translate it to SQL
-        String sql = relNodeToSql(relNode);
+        String sql = translateRelNodeToSql(relNode);
         System.out.println("The SQL generated was:"+sql);
         System.out.println();
         // Execute

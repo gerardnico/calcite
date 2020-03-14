@@ -37,7 +37,7 @@ public class JdbcRelToSql {
         RelNode relNode = builder.scan("TEST")
                 .project(builder.field("TEST_VALUE"))
                 .build();
-        jdbcStore.executeRelNodeAndPrint(relNode);
+        jdbcStore.translateRelNodeToSqlExecuteAndPrint(relNode);
 
         // Project Fetch
         int offset = 0;
@@ -46,7 +46,7 @@ public class JdbcRelToSql {
                 .project(builder.field("TEST_VALUE"))
                 .sortLimit(offset, fetch, builder.field("TEST_VALUE"))
                 .build();
-        jdbcStore.executeRelNodeAndPrint(relNode);
+        jdbcStore.translateRelNodeToSqlExecuteAndPrint(relNode);
 
 
     }

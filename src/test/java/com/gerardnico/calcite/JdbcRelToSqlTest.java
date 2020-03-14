@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class JdbcRelToSql {
+public class JdbcRelToSqlTest {
 
     @Test
     public void relToSqlTest() {

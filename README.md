@@ -7,6 +7,7 @@
   * Programmatic schema created with reflexion [SchemaReflective](src/main/java/com/gerardnico/calcite/SchemaReflective.java)
   * RelBuilder example is also working at [RelBuilderExample](src/main/java/com/gerardnico/calcite/RelBuilderExample.java)
   * Relational expression > Sql > Execute and print against a Jdbc data store. [JdbcRelToSql](src/test/java/com/gerardnico/calcite/JdbcRelToSql.java)
+  * Sql Parse Tree demo [SqlParserTest](src/test/java/com/gerardnico/calcite/SqlParserTest.java)
   
 ## FYI
 

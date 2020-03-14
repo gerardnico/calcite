@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import org.apache.calcite.sql.SqlWriterConfig;
 import org.junit.Test;
 
 public class SqlParserTest {
@@ -22,6 +23,13 @@ public class SqlParserTest {
                 + "order by gg desc nulls last, hh asc";
         SqlParseTree
                 .createTreeFromSql(sql)
+                .withWriterConfig(c -> c.withLineFolding(SqlWriterConfig.LineFolding.STEP))
+                .withWriterConfig(c -> c.withSelectFolding(SqlWriterConfig.LineFolding.TALL))
+                .withWriterConfig(c -> c.withFromFolding(SqlWriterConfig.LineFolding.TALL))
+                .withWriterConfig(c -> c.withWhereFolding(SqlWriterConfig.LineFolding.TALL))
+                .withWriterConfig(c -> c.withHavingFolding(SqlWriterConfig.LineFolding.TALL))
+                .withWriterConfig(c -> c.withIndentation(4))
+                .withWriterConfig(c -> c.withClauseEndsLine(true))
                 .print();
     }
 }

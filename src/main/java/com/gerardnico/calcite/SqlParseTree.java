@@ -5,12 +5,20 @@ import org.apache.calcite.sql.SqlWriterConfig;
 import org.apache.calcite.sql.parser.SqlParseException;
 import org.apache.calcite.sql.pretty.SqlPrettyWriter;
 
+import java.util.Objects;
+import java.util.function.UnaryOperator;
+
 public class SqlParseTree {
 
     /**
      * The tree
      */
-    SqlNode tree;
+    private SqlNode tree;
+
+    /**
+     * The config
+     */
+    private SqlWriterConfig config;
 
     public SqlParseTree(String sql) {
 
@@ -22,6 +30,7 @@ public class SqlParseTree {
                     + e.toString();
             throw new AssertionError(message);
         }
+        config = SqlPrettyWriter.config();
 
     }
 
@@ -36,16 +45,20 @@ public class SqlParseTree {
      * Print the tree
      */
     void print() {
-        final SqlWriterConfig config = SqlPrettyWriter.config()
-                .withLineFolding(SqlWriterConfig.LineFolding.STEP)
-                .withSelectFolding(SqlWriterConfig.LineFolding.TALL)
-                .withFromFolding(SqlWriterConfig.LineFolding.TALL)
-                .withWhereFolding(SqlWriterConfig.LineFolding.TALL)
-                .withHavingFolding(SqlWriterConfig.LineFolding.TALL)
-                .withIndentation(4)
-                .withClauseEndsLine(true);
         System.out.println(new SqlPrettyWriter(config).format(tree));
     }
 
+    /**
+     *
+     * @param transform - a lambda expression to change the writer config
+     * @return
+     *
+     * Example: c->c.withLineFolding(SqlWriterConfig.LineFolding.STEP)
+     */
+    public SqlParseTree withWriterConfig(UnaryOperator<SqlWriterConfig> transform) {
+        Objects.requireNonNull(transform);
+        transform.apply(config);
+        return this;
+    }
 
 }

@@ -1,10 +1,8 @@
-package com.gerardnico.calcite.adpater;
+package com.gerardnico.calcite.adapter;
 
-import com.gerardnico.calcite.adapter.AdapterContext;
 import org.apache.calcite.jdbc.CalcitePrepare;
 import org.apache.calcite.jdbc.CalciteSchema;
 import org.apache.calcite.jdbc.Driver;
-import org.apache.calcite.prepare.CalcitePrepareImpl;
 import org.junit.Test;
 
 import java.sql.Connection;

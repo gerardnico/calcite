@@ -35,7 +35,7 @@ public class HelloWorld {
                                     + "group by d.deptno\n"
                                     + "having count(*) > 1");
             ) {
-                ResultSets.print(resultSet);
+                JdbcStore.print(resultSet);
             }
         }
     }

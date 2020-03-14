@@ -32,7 +32,7 @@ public class SchemaBuilder {
     private SchemaPlus actualSchema;
 
     public SchemaBuilder() {
-        rootSchema = Frameworks.createRootSchema(true);
+            rootSchema = Frameworks.createRootSchema(true);
     }
 
     public static SchemaBuilder get() {

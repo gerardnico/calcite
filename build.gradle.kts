@@ -30,6 +30,8 @@ dependencies {
     implementation("net.hydromatic:scott-data-hsqldb:0.1")
     testImplementation("net.hydromatic:foodmart-data-hsqldb:0.4")
 
+    implementation("com.h2database:h2:1.4.195")
+
     // https://mvnrepository.com/artifact/org.apache.calcite/calcite-core
     compile("org.apache.calcite:calcite-core:1.22.0")
 

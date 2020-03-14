@@ -3,11 +3,16 @@
 
 ## Main
 
-  * Doc Index: [Background](src/main/java/com/gerardnico/calcite/Background.java)
+Demos:
+
+  * A query (The first demo of the doc): [HelloWorld](src/main/java/com/gerardnico/calcite/HelloWorld.java)
+  * From `Relational expression` to `Sql` then Execute and print against a Jdbc data store. [JdbcRelToSql](src/test/java/com/gerardnico/calcite/JdbcRelToSql.java)
+  * `Sql Parse Tree` demo [SqlParserTest](src/test/java/com/gerardnico/calcite/SqlParserTest.java)
+      * Sql Pretty Print
+      * Sql validation
   * Programmatic schema created with reflexion [SchemaReflective](src/main/java/com/gerardnico/calcite/SchemaReflective.java)
-  * RelBuilder example is also working at [RelBuilderExample](src/main/java/com/gerardnico/calcite/RelBuilderExample.java)
-  * Relational expression > Sql > Execute and print against a Jdbc data store. [JdbcRelToSql](src/test/java/com/gerardnico/calcite/JdbcRelToSql.java)
-  * Sql Parse Tree demo [SqlParserTest](src/test/java/com/gerardnico/calcite/SqlParserTest.java)
+  * `Catalog Reader` that shows the scheam and tables [CatalogsTest](src/test/java/com/gerardnico/calcite/CatalogsTest.java)
+  * `Relation Expression Builder` example is also working at [RelBuilderExample](src/main/java/com/gerardnico/calcite/RelBuilderExample.java)
   
 ## FYI
 

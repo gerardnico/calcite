@@ -175,7 +175,7 @@ public class RelBuilderExample {
     final SchemaPlus rootSchema = Frameworks.createRootSchema(true);
     return Frameworks.newConfigBuilder()
             .parserConfig(SqlParser.Config.DEFAULT)
-            .defaultSchema(CalciteAssert.addSchema(rootSchema, CalciteAssert.SchemaSpec.SCOTT_WITH_TEMPORAL))
+            .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.SCOTT_WITH_TEMPORAL))
             .traitDefs((List<RelTraitDef>) null)
             .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2));
   }

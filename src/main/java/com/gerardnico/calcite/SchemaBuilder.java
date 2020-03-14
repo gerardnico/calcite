@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.hr.HrSchema;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.adapter.clone.CloneSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
@@ -17,13 +18,66 @@ import org.apache.calcite.schema.Wrapper;
 import org.apache.calcite.schema.impl.*;
 import org.apache.calcite.sql.SqlDialect;
 import org.apache.calcite.sql.type.SqlTypeName;
+import org.apache.calcite.tools.Frameworks;
 
 import javax.sql.DataSource;
 
 /**
  * Extract of org.apache.calcite.test.CalciteAssert to get only the schema
  */
-public class CalciteAssert {
+public class SchemaBuilder {
+
+
+    private final SchemaPlus rootSchema;
+    private SchemaPlus actualSchema;
+
+    public SchemaBuilder() {
+        rootSchema = Frameworks.createRootSchema(true);
+    }
+
+    public static SchemaBuilder get() {
+        return new SchemaBuilder();
+    }
+
+    public static SchemaPlus getSchema(SchemaSpec schemaSpec) {
+        return get().addSchema(schemaSpec).getSchema();
+    }
+
+    public SchemaPlus getSchema() {
+        return actualSchema;
+    }
+
+    /**
+     * Specification for common test schemas.
+     */
+    public enum SchemaSpec {
+        REFLECTIVE_FOODMART("foodmart"),
+        FAKE_FOODMART("foodmart"),
+        JDBC_FOODMART("foodmart"),
+        CLONE_FOODMART("foodmart2"),
+        JDBC_FOODMART_WITH_LATTICE("lattice"),
+        GEO("GEO"),
+        HR("hr"),
+        JDBC_SCOTT("JDBC_SCOTT"),
+        SCOTT("scott"),
+        SCOTT_WITH_TEMPORAL("scott_temporal"),
+        BLANK("BLANK"),
+        LINGUAL("SALES"),
+        POST("POST"),
+        ORINOCO("ORINOCO"),
+        AUX("AUX"),
+        BOOKSTORE("bookstore");
+
+        /**
+         * The name of the schema that is usually created from this specification.
+         * (Names are not unique, and you can use another name if you wish.)
+         */
+        public final String schemaName;
+
+        SchemaSpec(String schemaName) {
+            this.schemaName = schemaName;
+        }
+    }
 
     /**
      * Which database to use for tests that require a JDBC data source.
@@ -33,86 +87,85 @@ public class CalciteAssert {
     public static final RelBuilderExample.DatabaseInstance DB =
             RelBuilderExample.DatabaseInstance.valueOf(CalciteSystemProperty.TEST_DB.value());
 
-    public static SchemaPlus addSchema(SchemaPlus rootSchema, SchemaSpec schema) {
-        final SchemaPlus foodmart;
-        final SchemaPlus jdbcScott;
-        final SchemaPlus scott;
+    public SchemaBuilder addSchema(SchemaSpec schema) {
         final ConnectionSpec cs;
         final DataSource dataSource;
         switch (schema) {
             case REFLECTIVE_FOODMART:
-                return rootSchema.add(schema.schemaName,
-                        new ReflectiveSchema(new JdbcTest.FoodmartSchema()));
+                actualSchema = rootSchema.add(schema.schemaName, new ReflectiveSchema(new JdbcTest.FoodmartSchema()));
+                return this;
             case JDBC_SCOTT:
                 cs = RelBuilderExample.DatabaseInstance.HSQLDB.scott;
-                dataSource = JdbcSchema.dataSource(cs.url, cs.driver, cs.username,
-                        cs.password);
-                return rootSchema.add(schema.schemaName,
-                        JdbcSchema.create(rootSchema, schema.schemaName, dataSource,
-                                cs.catalog, cs.schema));
+                dataSource = JdbcSchema.dataSource(cs.url, cs.driver, cs.username, cs.password);
+                JdbcSchema jdbcScott = JdbcSchema.create(rootSchema, schema.schemaName, dataSource, cs.catalog, cs.schema);
+                actualSchema = rootSchema.add(schema.schemaName, jdbcScott);
+                return this;
             case JDBC_FOODMART:
                 cs = DB.foodmart;
                 dataSource =
                         JdbcSchema.dataSource(cs.url, cs.driver, cs.username, cs.password);
-                return rootSchema.add(schema.schemaName,
+                actualSchema = rootSchema.add(schema.schemaName,
                         JdbcSchema.create(rootSchema, schema.schemaName, dataSource,
                                 cs.catalog, cs.schema));
+                return this;
             case JDBC_FOODMART_WITH_LATTICE:
-                foodmart = addSchemaIfNotExists(rootSchema, SchemaSpec.JDBC_FOODMART);
-                foodmart.add(schema.schemaName,
-                        Lattice.create(foodmart.unwrap(CalciteSchema.class),
+                actualSchema = getOrCreateSchema(SchemaSpec.JDBC_FOODMART);
+                actualSchema.add(schema.schemaName,
+                        Lattice.create(actualSchema.unwrap(CalciteSchema.class),
                                 "select 1 from \"foodmart\".\"sales_fact_1997\" as s\n"
                                         + "join \"foodmart\".\"time_by_day\" as t using (\"time_id\")\n"
                                         + "join \"foodmart\".\"customer\" as c using (\"customer_id\")\n"
                                         + "join \"foodmart\".\"product\" as p using (\"product_id\")\n"
                                         + "join \"foodmart\".\"product_class\" as pc on p.\"product_class_id\" = pc.\"product_class_id\"",
                                 true));
-                return foodmart;
+                return this;
             case SCOTT:
-                jdbcScott = addSchemaIfNotExists(rootSchema, SchemaSpec.JDBC_SCOTT);
-                return rootSchema.add(schema.schemaName, new CloneSchema(jdbcScott));
+                // Copy of the jdbc one
+                actualSchema = getOrCreateSchema(SchemaSpec.JDBC_SCOTT);
+                actualSchema.add(schema.schemaName, new CloneSchema(actualSchema));
+                return this;
             case SCOTT_WITH_TEMPORAL:
-                scott = addSchemaIfNotExists(rootSchema, SchemaSpec.SCOTT);
-                scott.add("products_temporal", new StreamTest.ProductsTemporalTable());
-                scott.add("orders",
+                actualSchema = getOrCreateSchema(SchemaSpec.SCOTT);
+                actualSchema.add("products_temporal", new StreamTest.ProductsTemporalTable());
+                actualSchema.add("orders",
                         new StreamTest.OrdersHistoryTable(
                                 StreamTest.OrdersStreamTableFactory.getRowList()));
-                return scott;
+                return this;
             case CLONE_FOODMART:
-                foodmart = addSchemaIfNotExists(rootSchema, SchemaSpec.JDBC_FOODMART);
-                return rootSchema.add("foodmart2", new CloneSchema(foodmart));
+                // Copy of the Jbdc one
+                actualSchema = getOrCreateSchema(SchemaSpec.JDBC_FOODMART);
+                rootSchema.add("foodmart2", new CloneSchema(actualSchema));
+                return this;
             case GEO:
                 ModelHandler.addFunctions(rootSchema, null, ImmutableList.of(),
                         GeoFunctions.class.getName(), "*", true);
-                final SchemaPlus s =
-                        rootSchema.add(schema.schemaName, new AbstractSchema());
-                ModelHandler.addFunctions(s, "countries", ImmutableList.of(),
+                actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
+                ModelHandler.addFunctions(actualSchema, "countries", ImmutableList.of(),
                         CountriesTableFunction.class.getName(), null, false);
                 final String sql = "select * from table(\"countries\"(true))";
                 final ViewTableMacro viewMacro = ViewTable.viewMacro(rootSchema, sql,
                         ImmutableList.of("GEO"), ImmutableList.of(), false);
-                s.add("countries", viewMacro);
-                return s;
+                actualSchema.add("countries", viewMacro);
+                return this;
             case HR:
-                return rootSchema.add(schema.schemaName,
-                        new ReflectiveSchema(new JdbcTest.HrSchema()));
+                actualSchema = rootSchema.add(schema.schemaName, new ReflectiveSchema(new HrSchema()));
+                return this;
             case LINGUAL:
-                return rootSchema.add(schema.schemaName,
+                actualSchema = rootSchema.add(schema.schemaName,
                         new ReflectiveSchema(new JdbcTest.LingualSchema()));
+                return this;
             case BLANK:
-                return rootSchema.add(schema.schemaName, new AbstractSchema());
+                actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
+                return this;
             case ORINOCO:
-                final SchemaPlus orinoco =
-                        rootSchema.add(schema.schemaName, new AbstractSchema());
-                orinoco.add("ORDERS",
-                        new StreamTest.OrdersHistoryTable(
-                                StreamTest.OrdersStreamTableFactory.getRowList()));
-                return orinoco;
+                actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
+                actualSchema.add("ORDERS", new StreamTest.OrdersHistoryTable(
+                        StreamTest.OrdersStreamTableFactory.getRowList()));
+                return this;
             case POST:
-                final SchemaPlus post =
-                        rootSchema.add(schema.schemaName, new AbstractSchema());
-                post.add("EMP",
-                        ViewTable.viewMacro(post,
+                actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
+                actualSchema.add("EMP",
+                        ViewTable.viewMacro(actualSchema,
                                 "select * from (values\n"
                                         + "    ('Jane', 10, 'F'),\n"
                                         + "    ('Bob', 10, 'M'),\n"
@@ -126,8 +179,8 @@ public class CalciteAssert {
                                         + "  as t(ename, deptno, gender)",
                                 ImmutableList.of(), ImmutableList.of("POST", "EMP"),
                                 null));
-                post.add("DEPT",
-                        ViewTable.viewMacro(post,
+                actualSchema.add("DEPT",
+                        ViewTable.viewMacro(actualSchema,
                                 "select * from (values\n"
                                         + "    (10, 'Sales'),\n"
                                         + "    (20, 'Marketing'),\n"
@@ -135,13 +188,13 @@ public class CalciteAssert {
                                         + "    (40, 'Empty')) as t(deptno, dname)",
                                 ImmutableList.of(), ImmutableList.of("POST", "DEPT"),
                                 null));
-                post.add("DEPT30",
-                        ViewTable.viewMacro(post,
+                actualSchema.add("DEPT30",
+                        ViewTable.viewMacro(actualSchema,
                                 "select * from dept where deptno = 30",
                                 ImmutableList.of("POST"), ImmutableList.of("POST", "DEPT30"),
                                 null));
-                post.add("EMPS",
-                        ViewTable.viewMacro(post,
+                actualSchema.add("EMPS",
+                        ViewTable.viewMacro(actualSchema,
                                 "select * from (values\n"
                                         + "    (100, 'Fred',  10, CAST(NULL AS CHAR(1)), CAST(NULL AS VARCHAR(20)), 40,               25, TRUE,    FALSE, DATE '1996-08-03'),\n"
                                         + "    (110, 'Eric',  20, 'M',                   'San Francisco',           3,                80, UNKNOWN, FALSE, DATE '2001-01-01'),\n"
@@ -151,8 +204,8 @@ public class CalciteAssert {
                                         + " as t(empno, name, deptno, gender, city, empid, age, slacker, manager, joinedat)",
                                 ImmutableList.of(), ImmutableList.of("POST", "EMPS"),
                                 null));
-                post.add("TICKER",
-                        ViewTable.viewMacro(post,
+                actualSchema.add("TICKER",
+                        ViewTable.viewMacro(actualSchema,
                                 "select * from (values\n"
                                         + "    ('ACME', '2017-12-01', 12),\n"
                                         + "    ('ACME', '2017-12-02', 17),\n"
@@ -177,17 +230,17 @@ public class CalciteAssert {
                                         + " as t(SYMBOL, tstamp, price)",
                                 ImmutableList.<String>of(), ImmutableList.of("POST", "TICKER"),
                                 null));
-                return post;
+                return this;
             case FAKE_FOODMART:
                 // Similar to FOODMART, but not based on JdbcSchema.
                 // Contains 2 tables that do not extend JdbcTable.
                 // They redirect requests for SqlDialect and DataSource to the real JDBC
                 // FOODMART, and this allows statistics queries to be executed.
-                foodmart = addSchemaIfNotExists(rootSchema, SchemaSpec.JDBC_FOODMART);
+                SchemaPlus foodmart = getOrCreateSchema(SchemaSpec.JDBC_FOODMART);
                 final Wrapper salesTable = (Wrapper) foodmart.getTable("sales_fact_1997");
-                SchemaPlus fake =
-                        rootSchema.add(schema.schemaName, new AbstractSchema());
-                fake.add("time_by_day", new AbstractTable() {
+                // Fake
+                actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
+                actualSchema.add("time_by_day", new AbstractTable() {
                     public RelDataType getRowType(RelDataTypeFactory typeFactory) {
                         return typeFactory.builder()
                                 .add("time_id", SqlTypeName.INTEGER)
@@ -203,7 +256,7 @@ public class CalciteAssert {
                         return super.unwrap(aClass);
                     }
                 });
-                fake.add("sales_fact_1997", new AbstractTable() {
+                actualSchema.add("sales_fact_1997", new AbstractTable() {
                     public RelDataType getRowType(RelDataTypeFactory typeFactory) {
                         return typeFactory.builder()
                                 .add("time_id", SqlTypeName.INTEGER)
@@ -219,72 +272,52 @@ public class CalciteAssert {
                         return super.unwrap(aClass);
                     }
                 });
-                return fake;
+                return this;
             case AUX:
-                SchemaPlus aux =
+                actualSchema =
                         rootSchema.add(schema.schemaName, new AbstractSchema());
                 TableFunction tableFunction =
                         TableFunctionImpl.create(Smalls.SimpleTableFunction.class, "eval");
-                aux.add("TBLFUN", tableFunction);
+                actualSchema.add("TBLFUN", tableFunction);
                 final String simpleSql = "select *\n"
                         + "from (values\n"
                         + "    ('ABC', 1),\n"
                         + "    ('DEF', 2),\n"
                         + "    ('GHI', 3))\n"
                         + "  as t(strcol, intcol)";
-                aux.add("SIMPLETABLE",
-                        ViewTable.viewMacro(aux, simpleSql, ImmutableList.of(),
+                actualSchema.add("SIMPLETABLE",
+                        ViewTable.viewMacro(actualSchema, simpleSql, ImmutableList.of(),
                                 ImmutableList.of("AUX", "SIMPLETABLE"), null));
                 final String lateralSql = "SELECT *\n"
                         + "FROM AUX.SIMPLETABLE ST\n"
                         + "CROSS JOIN LATERAL TABLE(AUX.TBLFUN(ST.INTCOL))";
-                aux.add("VIEWLATERAL",
-                        ViewTable.viewMacro(aux, lateralSql, ImmutableList.of(),
+                actualSchema.add("VIEWLATERAL",
+                        ViewTable.viewMacro(actualSchema, lateralSql, ImmutableList.of(),
                                 ImmutableList.of("AUX", "VIEWLATERAL"), null));
-                return aux;
+                return this;
             case BOOKSTORE:
-                return rootSchema.add(schema.schemaName,
+                actualSchema = rootSchema.add(schema.schemaName,
                         new ReflectiveSchema(new BookstoreSchema()));
+                return this;
             default:
                 throw new AssertionError("unknown schema " + schema);
         }
     }
 
-    /** Specification for common test schemas. */
-    public enum SchemaSpec {
-        REFLECTIVE_FOODMART("foodmart"),
-        FAKE_FOODMART("foodmart"),
-        JDBC_FOODMART("foodmart"),
-        CLONE_FOODMART("foodmart2"),
-        JDBC_FOODMART_WITH_LATTICE("lattice"),
-        GEO("GEO"),
-        HR("hr"),
-        JDBC_SCOTT("JDBC_SCOTT"),
-        SCOTT("scott"),
-        SCOTT_WITH_TEMPORAL("scott_temporal"),
-        BLANK("BLANK"),
-        LINGUAL("SALES"),
-        POST("POST"),
-        ORINOCO("ORINOCO"),
-        AUX("AUX"),
-        BOOKSTORE("bookstore");
 
-        /** The name of the schema that is usually created from this specification.
-         * (Names are not unique, and you can use another name if you wish.) */
-        public final String schemaName;
 
-        SchemaSpec(String schemaName) {
-            this.schemaName = schemaName;
+
+    /**
+     * @param schemaSpec
+     * @return the schema
+     */
+    private SchemaPlus getOrCreateSchema(SchemaSpec schemaSpec) {
+        SchemaPlus schema = rootSchema.getSubSchema(schemaSpec.schemaName);
+        if (schema ==null){
+            addSchema(schemaSpec);
+            schema = rootSchema.getSubSchema(schemaSpec.schemaName);
         }
-    }
-
-    private static SchemaPlus addSchemaIfNotExists(SchemaPlus rootSchema,
-                                                   SchemaSpec schemaSpec) {
-        final SchemaPlus schema = rootSchema.getSubSchema(schemaSpec.schemaName);
-        if (schema != null) {
-            return schema;
-        }
-        return addSchema(rootSchema, schemaSpec);
+        return schema;
     }
 
 

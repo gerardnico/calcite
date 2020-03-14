@@ -17,6 +17,7 @@
 package com.gerardnico.calcite;
 
 
+import com.gerardnico.calcite.hr.HrSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.SchemaPlus;
@@ -42,7 +43,7 @@ public class SchemaReflective {
     CalciteConnection calciteConnection =
         connection.unwrap(CalciteConnection.class);
     SchemaPlus rootSchema = calciteConnection.getRootSchema();
-    rootSchema.add("hr", new ReflectiveSchema(new Hr()));
+    rootSchema.add("hr", new ReflectiveSchema(new HrSchema()));
     rootSchema.add("foodmart", new ReflectiveSchema(new Foodmart()));
     Statement statement = connection.createStatement();
     ResultSet resultSet =
@@ -67,25 +68,9 @@ public class SchemaReflective {
     connection.close();
   }
 
-  /** Object that will be used via reflection to create the "hr" schema. */
-  public static class Hr {
-    public final Employee[] emps = {
-        new Employee(100, "Bill"),
-        new Employee(200, "Eric"),
-        new Employee(150, "Sebastian"),
-    };
-  }
 
-  /** Object that will be used via reflection to create the "emps" table. */
-  public static class Employee {
-    public final int empid;
-    public final String name;
 
-    public Employee(int empid, String name) {
-      this.empid = empid;
-      this.name = name;
-    }
-  }
+
 
   /** Object that will be used via reflection to create the "foodmart"
    * schema. */

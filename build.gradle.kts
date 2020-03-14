@@ -28,6 +28,7 @@ dependencies {
     implementation("org.hsqldb:hsqldb:2.5.0")
     // The scott hsqldb files are in this jar
     implementation("net.hydromatic:scott-data-hsqldb:0.1")
+    testImplementation("net.hydromatic:foodmart-data-hsqldb:0.4")
 
     // https://mvnrepository.com/artifact/org.apache.calcite/calcite-core
     compile("org.apache.calcite:calcite-core:1.22.0")

@@ -47,6 +47,6 @@ public class CalciteRelExpressionTest {
                 .repeatUnion("aux", true)
                 .build();
         CalciteRel.print(relNode);
-        CalciteRel.executeQueryAndPrint(relNode);
+        CalciteRel.executeAndPrint(relNode);
     }
 }

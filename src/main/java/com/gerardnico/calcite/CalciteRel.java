@@ -79,7 +79,7 @@ public class CalciteRel {
      *
      * @param relNode
      */
-    public static void executeQueryAndPrint(RelNode relNode) {
+    public static void executeAndPrint(RelNode relNode) {
         try (ResultSet resultSet = executeQuery(relNode)) {
             CalciteJdbc.printResultSet(resultSet);
         } catch (SQLException e) {

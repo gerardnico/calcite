@@ -1,45 +1,20 @@
 # Calcite experimentation
 
 
-## Main
+## Demos
 
-Demos:
-
-  * A query (The first demo of the doc): [HelloWorld](src/main/java/com/gerardnico/calcite/HelloWorld.java)
-  * From `Relational expression` to `Sql` then Execute and print against a Jdbc data store. [JdbcRelToSql](src/test/java/com/gerardnico/calcite/JdbcRelToSql.java)
-  * `Sql Parse Tree` demo [SqlParserTest](src/test/java/com/gerardnico/calcite/SqlParserTest.java)
-      * Sql Pretty Print
-      * Sql validation
-  * Programmatic schema created with reflexion [SchemaReflective](src/main/java/com/gerardnico/calcite/SchemaReflective.java)
-  * `Catalog Reader` that shows the scheam and tables [CatalogsTest](src/test/java/com/gerardnico/calcite/CatalogsTest.java)
-  * `Relation Expression Builder` example is also working at [RelBuilderExample](src/main/java/com/gerardnico/calcite/RelBuilderExample.java)
+  * [HelloWorld](src/main/java/com/gerardnico/calcite/demo/HelloWorld.java) - A query (The first demo of the doc)
+  * [Relational Expression To Sql](src/test/java/com/gerardnico/calcite/CalciteRelToSqlTest.java) From RelBuilder based on a Jdbc data store, build a relational expression and transform it to SQL. 
+  * [Sql Validation](src/test/java/com/gerardnico/calcite/CalciteSqlValidationTest.java) - Parse a SQL to SqlNode and validate it
+  * [Sql Pretty Print](src/test/java/com/gerardnico/calcite/CalciteSqlWriterTest.java) - Parse a SQL to SqlNode and print it pretty      
+  * [SchemaReflective](src/test/java/com/gerardnico/calcite/CalciteSchemaReflectiveTest.java) - Shows how to create a schema from Java Object via reflexion
+  * [Catalog Reader](src/test/java/com/gerardnico/calcite/CalciteCatalogsTest.java) - read the schema and tables from a catalog 
+  * [Relational Expression](src/test/java/com/gerardnico/calcite/CalciteRelExpressionTest.java) - shows how to create several relational expression and execute them 
   
 ## FYI
 
-This code is an extract of the test core project of calcite.
-
-The database used is `Hsqldb` and the data file `SCOTT` is also in a jar file.
-
-## Environement
-
-  * [Connection]()
-            final SchemaPlus schema = createSchema(modelPath);
-            final FrameworkConfig frameworkConfig = createFrameworkConfig(schema);
-            final Planner planner = Frameworks.getPlanner(frameworkConfig);
-
-AbstractQueryableTable is the Abstract base class for implementing {@link org.apache.calcite.schema.Table}.
-
-org.apache.calcite.linq4j.QueryProvider interface defines 
-methods to create and execute queries that are described by a {@link Queryable} object.
-
-Enumerator (org.apache.calcite.linq4j.Enumerator) is the cursor
-
-explain plan sql
-"explain plan " + extra + "for " + sql
-
-See:
-org.apache.calcite.test.SqlToRelTestBase#convertSqlToRel
+  * This code is an extract and adaptation of the test core project of calcite.
+  * The database used are `Hsqldb` and `H2` and the data files such as `SCOTT` are also in a jar dependency file.
 
 
-    
-RelRoot is the root of the tree
+

@@ -126,7 +126,7 @@ public class SchemaBuilder {
             case SCOTT:
                 // Copy of the jdbc one
                 actualSchema = getOrCreateSchema(SchemaSpec.JDBC_SCOTT);
-                actualSchema.add(schema.schemaName, new CloneSchema(actualSchema));
+                rootSchema.add(schema.schemaName, new CloneSchema(actualSchema));
                 return this;
             case SCOTT_WITH_TEMPORAL:
                 actualSchema = getOrCreateSchema(SchemaSpec.SCOTT);

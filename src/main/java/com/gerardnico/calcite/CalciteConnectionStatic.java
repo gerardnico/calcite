@@ -34,9 +34,14 @@ public class CalciteConnectionStatic {
         try {
             Class.forName("org.apache.calcite.jdbc.Driver");
             Properties info = new Properties();
-            // lex gives a lot of default lexical property
+            /**
+             * The lex property gives a lot of default lexical property
+             * {@link CalciteConnectionProperty.LEX}
+             */
             info.setProperty("lex", "JAVA");
-            // You can define your with extra connection properties
+            /**
+             * You can define your with extra connection properties
+             */
             info.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.name(),"false");
             return  unwrap(DriverManager.getConnection("jdbc:calcite:", info));
         } catch (ClassNotFoundException | SQLException e) {

@@ -1,39 +1,17 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to you under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.gerardnico.calcite.demo;
 
-import com.gerardnico.calcite.schema.SchemaBuilder;
+import com.gerardnico.calcite.CalciteRel;
 import org.apache.calcite.plan.RelOptUtil;
-import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.core.JoinRelType;
-import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.fun.SqlStdOperatorTable;
-import org.apache.calcite.sql.parser.SqlParser;
-import org.apache.calcite.tools.FrameworkConfig;
-import org.apache.calcite.tools.Frameworks;
-import org.apache.calcite.tools.Programs;
 import org.apache.calcite.tools.RelBuilder;
-
-import java.util.List;
 
 /**
  * Example that uses {@link org.apache.calcite.tools.RelBuilder}
  * to create various relational expressions.
+ *
+ * <a href=https://calcite.apache.org/docs/algebra.html#api-summary>API summary</a>
  */
 public class RelBuilderExample {
   private final boolean verbose;
@@ -47,10 +25,7 @@ public class RelBuilderExample {
   }
 
   public void runAllExamples() {
-    // Create a builder. The config contains a schema mapped
-    // to the SCOTT database, with tables EMP and DEPT.
-    final FrameworkConfig config = config().build();
-    final RelBuilder builder = RelBuilder.create(config);
+    RelBuilder builder = CalciteRel.getScott();
     for (int i = 0; i < 4; i++) {
       doExample(builder, i);
       final RelNode node = builder.build();
@@ -170,15 +145,7 @@ public class RelBuilderExample {
         .join(JoinRelType.INNER, "ORDER_ID");
   }
 
-  /** Creates a config based on the "scott" schema. */
-  public static Frameworks.ConfigBuilder config() {
-    final SchemaPlus rootSchema = Frameworks.createRootSchema(true);
-    return Frameworks.newConfigBuilder()
-            .parserConfig(SqlParser.Config.DEFAULT)
-            .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.SCOTT_WITH_TEMPORAL))
-            .traitDefs((List<RelTraitDef>) null)
-            .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2));
-  }
+
 
 
 }

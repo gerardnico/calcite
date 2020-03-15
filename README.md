@@ -20,7 +20,12 @@ This code is an extract of the test core project of calcite.
 
 The database used is `Hsqldb` and the data file `SCOTT` is also in a jar file.
 
-##
+## Environement
+
+  * [Connection]()
+            final SchemaPlus schema = createSchema(modelPath);
+            final FrameworkConfig frameworkConfig = createFrameworkConfig(schema);
+            final Planner planner = Frameworks.getPlanner(frameworkConfig);
 
 AbstractQueryableTable is the Abstract base class for implementing {@link org.apache.calcite.schema.Table}.
 

@@ -1,11 +1,11 @@
-package com.gerardnico.calcite.hr;
+package com.gerardnico.calcite.schema.hr;
 
 
-public class Location {
+public class HrLocation {
     public final int x;
     public final int y;
 
-    public Location(int x, int y) {
+    public HrLocation(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -18,8 +18,8 @@ public class Location {
     @Override
     public boolean equals(Object obj) {
         return obj == this
-                || obj instanceof Location
-                && x == ((Location) obj).x
-                && y == ((Location) obj).y;
+                || obj instanceof HrLocation
+                && x == ((HrLocation) obj).x
+                && y == ((HrLocation) obj).y;
     }
 }

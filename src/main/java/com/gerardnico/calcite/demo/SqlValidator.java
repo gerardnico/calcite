@@ -1,9 +1,8 @@
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.demo;
 
 import com.gerardnico.calcite.mock.MockCatalogReader;
 import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
 import com.gerardnico.calcite.mock.MockSqlOperatorTable;
-import org.apache.calcite.prepare.Prepare;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
 import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.sql.SqlOperatorTable;
@@ -22,7 +21,7 @@ import org.apache.calcite.sql.validate.SqlValidatorImpl;
  *
  * This class that originates from the FarragoTestValidator
  */
-class SqlValidator extends SqlValidatorImpl {
+public class SqlValidator extends SqlValidatorImpl {
 
     SqlValidator(
             SqlOperatorTable sqlOperatorTable,

@@ -1,4 +1,4 @@
-package com.gerardnico.calcite.hr;
+package com.gerardnico.calcite.schema.hr;
 
 import java.util.Objects;
 

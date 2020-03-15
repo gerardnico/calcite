@@ -14,8 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.demo;
 
+import com.gerardnico.calcite.ConnectionSpec;
+import com.gerardnico.calcite.SchemaBuilder;
 import org.apache.calcite.config.CalciteSystemProperty;
 import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.plan.RelTraitDef;

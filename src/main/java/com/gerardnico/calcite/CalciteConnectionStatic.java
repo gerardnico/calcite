@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  * Static method on {@link org.apache.calcite.jdbc.CalciteConnection}
  */
-public class CalciteConnections {
+public class CalciteConnectionStatic {
 
     /**
      *
@@ -38,5 +38,14 @@ public class CalciteConnections {
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     *
+     * @param modelPath - the path de json model file
+     * @return a connection configured with the model file
+     */
+    public static CalciteConnection getConnectionWithModel(String modelPath) {
+        return CalciteModel.getConnectionFromModel(modelPath);
     }
 }

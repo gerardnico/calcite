@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.schema;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

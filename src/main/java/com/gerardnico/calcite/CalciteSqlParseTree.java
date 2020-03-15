@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.demo.SqlValidator;
 import com.gerardnico.calcite.mock.*;
 import org.apache.calcite.config.CalciteConnectionConfig;
 import org.apache.calcite.config.CalciteConnectionConfigImpl;
@@ -22,7 +23,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.function.UnaryOperator;
 
-public class SqlParseTree {
+public class CalciteSqlParseTree {
 
     /**
      * The original sql
@@ -51,7 +52,7 @@ public class SqlParseTree {
      *
      * @param sql
      */
-    public SqlParseTree(String sql) {
+    public CalciteSqlParseTree(String sql) {
 
         try {
             this.sql = sql;
@@ -68,8 +69,8 @@ public class SqlParseTree {
     /**
      * Parses a SQL query.
      */
-    static public SqlParseTree createTreeFromSql(String sql) {
-        return new SqlParseTree(sql);
+    static public CalciteSqlParseTree createTreeFromSql(String sql) {
+        return new CalciteSqlParseTree(sql);
     }
 
     /**
@@ -83,7 +84,7 @@ public class SqlParseTree {
      * @param transform - a lambda expression to change the writer config
      * @return Example: c->c.withLineFolding(SqlWriterConfig.LineFolding.STEP)
      */
-    public SqlParseTree withWriterConfig(UnaryOperator<SqlWriterConfig> transform) {
+    public CalciteSqlParseTree withWriterConfig(UnaryOperator<SqlWriterConfig> transform) {
         Objects.requireNonNull(transform);
         transform.apply(config);
         return this;

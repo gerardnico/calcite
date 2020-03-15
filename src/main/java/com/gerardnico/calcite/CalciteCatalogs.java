@@ -5,7 +5,7 @@ import org.apache.calcite.prepare.Prepare;
 /**
  * Static info on catalog
  */
-public class Catalogs {
+public class CalciteCatalogs {
 
 
     /**

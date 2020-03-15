@@ -1,4 +1,4 @@
-package com.gerardnico.calcite.hr;
+package com.gerardnico.calcite.schema.hr;
 
 import com.gerardnico.calcite.Smalls;
 import com.google.common.collect.ImmutableList;
@@ -57,8 +57,8 @@ public class HrSchema {
     };
     public final HrDepartment[] depts = {
             new HrDepartment(10, "Sales", Arrays.asList(emps[0], emps[2]),
-                    new Location(-122, 38)),
-            new HrDepartment(30, "Marketing", ImmutableList.of(), new Location(0, 52)),
+                    new HrLocation(-122, 38)),
+            new HrDepartment(30, "Marketing", ImmutableList.of(), new HrLocation(0, 52)),
             new HrDepartment(40, "HR", Collections.singletonList(emps[1]), null),
     };
     public final HrDependent[] hrDependents = {

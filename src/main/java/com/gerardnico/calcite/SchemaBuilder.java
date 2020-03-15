@@ -1,6 +1,9 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.hr.HrSchema;
+import com.gerardnico.calcite.demo.RelBuilderExample;
+import com.gerardnico.calcite.schema.JdbcTest;
+import com.gerardnico.calcite.schema.hr.HrSchema;
+import com.gerardnico.calcite.schema.BookstoreSchema;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.adapter.clone.CloneSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
@@ -141,7 +144,7 @@ public class SchemaBuilder {
                         GeoFunctions.class.getName(), "*", true);
                 actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
                 ModelHandler.addFunctions(actualSchema, "countries", ImmutableList.of(),
-                        CountriesTableFunction.class.getName(), null, false);
+                        CalciteTableFunctionCountries.class.getName(), null, false);
                 final String sql = "select * from table(\"countries\"(true))";
                 final ViewTableMacro viewMacro = ViewTable.viewMacro(rootSchema, sql,
                         ImmutableList.of("GEO"), ImmutableList.of(), false);

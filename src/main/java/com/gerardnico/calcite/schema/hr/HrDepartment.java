@@ -1,4 +1,4 @@
-package com.gerardnico.calcite.hr;
+package com.gerardnico.calcite.schema.hr;
 
 
 import java.util.List;
@@ -9,10 +9,11 @@ public  class HrDepartment {
 
     @org.apache.calcite.adapter.java.Array(component = HrEmployee.class)
     public final List<HrEmployee> hrEmployees;
-    public final Location location;
+    private final HrLocation location;
+
 
     public HrDepartment(int deptno, String name, List<HrEmployee> hrEmployees,
-                        Location location) {
+                        HrLocation location) {
         this.deptno = deptno;
         this.name = name;
         this.hrEmployees = hrEmployees;

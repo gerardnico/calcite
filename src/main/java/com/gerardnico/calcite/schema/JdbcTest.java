@@ -1,4 +1,4 @@
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.schema;
 
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.schema.QueryableTable;
@@ -39,12 +39,6 @@ public class JdbcTest {
                     && prod_id == ((SalesFact) obj).prod_id;
         }
     }
-
-
-
-
-
-
 
 
 

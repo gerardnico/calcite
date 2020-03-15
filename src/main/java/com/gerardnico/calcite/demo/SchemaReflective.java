@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.demo;
 
 
-import com.gerardnico.calcite.hr.HrSchema;
+import com.gerardnico.calcite.schema.hr.HrSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.SchemaPlus;

@@ -1,4 +1,4 @@
-package com.gerardnico.calcite.hr;
+package com.gerardnico.calcite.schema.hr;
 
 /**
  * Object that will be used via reflection to create the "emps" table.

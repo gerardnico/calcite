@@ -7,7 +7,7 @@ import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.sql.type.SqlTypeFactoryImpl;
 import org.junit.Test;
 
-public class CatalogsTest {
+public class CalciteCatalogsTest {
 
 
     /**
@@ -18,7 +18,7 @@ public class CatalogsTest {
 
         RelDataTypeFactory typeFactory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
         MockCatalogReader catalogReader = new MockCatalogReaderSimple(typeFactory, true).init();
-        Catalogs.print(catalogReader);
+        CalciteCatalogs.print(catalogReader);
 
     }
 }

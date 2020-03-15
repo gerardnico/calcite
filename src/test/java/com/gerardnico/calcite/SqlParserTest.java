@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.demo.SqlValidator;
 import org.apache.calcite.runtime.CalciteContextException;
 import org.apache.calcite.sql.SqlWriterConfig;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class SqlParserTest {
                 + "   range between interval '2:2' hour to minute preceding"
                 + "    and interval '1' day following)) "
                 + "order by gg desc nulls last, hh asc";
-        SqlParseTree sqlParseTree = SqlParseTree
+        CalciteSqlParseTree calciteSqlParseTree = CalciteSqlParseTree
                 .createTreeFromSql(sql)
                 .withWriterConfig(c -> c
                         .withLineFolding(SqlWriterConfig.LineFolding.STEP)
@@ -37,24 +38,24 @@ public class SqlParserTest {
                         .withHavingFolding(SqlWriterConfig.LineFolding.TALL)
                         .withIndentation(4)
                         .withClauseEndsLine(true));
-        sqlParseTree.print();
+        calciteSqlParseTree.print();
     }
 
 
     @Test
     public void parseValidationGoodTest() {
         final String sql = "select * from SALES.EMP";
-        SqlParseTree sqlParseTree = SqlParseTree
+        CalciteSqlParseTree calciteSqlParseTree = CalciteSqlParseTree
                 .createTreeFromSql(sql);
-        sqlParseTree.validate(SqlValidator.createSqlValidator());
+        calciteSqlParseTree.validate(SqlValidator.createSqlValidator());
     }
 
     @Test(expected = CalciteContextException.class)
     public void parseValidationBadTest() {
         final String sql = "select * from YOLO"; // Yolo is not a table
-        SqlParseTree sqlParseTree = SqlParseTree
+        CalciteSqlParseTree calciteSqlParseTree = CalciteSqlParseTree
                 .createTreeFromSql(sql);
-        sqlParseTree.validate(SqlValidator.createSqlValidator());
+        calciteSqlParseTree.validate(SqlValidator.createSqlValidator());
     }
 
 }

@@ -36,8 +36,8 @@ import org.apache.calcite.util.ImmutableBitSet;
  *
  * <p>Has same content as
  * <code>file/src/test/resources/geo/countries.csv</code>. */
-public class CountriesTableFunction {
-  private CountriesTableFunction() {}
+public class CalciteTableFunctionCountries {
+  private CalciteTableFunctionCountries() {}
 
   private static final Object[][] ROWS = {
       {"AD", 42.546245, 1.601554, "Andorra"},

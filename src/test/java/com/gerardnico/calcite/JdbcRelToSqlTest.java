@@ -38,7 +38,8 @@ public class JdbcRelToSqlTest {
         RelNode relNode = builder.scan("TEST")
                 .project(builder.field("TEST_VALUE"))
                 .build();
-        jdbcStore.translateRelNodeToSqlExecuteAndPrint(relNode);
+        String sql = CalciteRel.fromRelNodeToSql(relNode,jdbcStore.getDialect());
+        System.out.println(sql);
 
         // Project Fetch
         int offset = 0;
@@ -47,7 +48,8 @@ public class JdbcRelToSqlTest {
                 .project(builder.field("TEST_VALUE"))
                 .sortLimit(offset, fetch, builder.field("TEST_VALUE"))
                 .build();
-        jdbcStore.translateRelNodeToSqlExecuteAndPrint(relNode);
+        sql = CalciteRel.fromRelNodeToSql(relNode,jdbcStore.getDialect());
+        System.out.println(sql);
 
 
     }

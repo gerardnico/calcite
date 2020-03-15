@@ -1,16 +1,11 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.demo.JdbcStore;
 import com.gerardnico.calcite.demo.RelBuilderExample;
-import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.sql.fun.SqlStdOperatorTable;
 import org.apache.calcite.tools.RelBuilder;
-import org.apache.calcite.tools.RelRunners;
 import org.junit.Test;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RelExpressionTest {
@@ -35,7 +30,7 @@ public class RelExpressionTest {
      */
     @Test
     public void recursiveQueryTest() throws SQLException {
-        RelBuilder builder = CalciteRel.getScott();
+        RelBuilder builder = CalciteRel.createScottBasedRelBuilder();
         final RelNode relNode = builder
                 .values(new String[] { "i" }, 1)
                 .transientScan("aux")

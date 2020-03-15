@@ -16,7 +16,7 @@ public class CalciteFramework {
     private static FrameworkConfig createFrameworkConfig(SchemaPlus schema) {
 
         return Frameworks.newConfigBuilder()
-                .parserConfig(CalciteSqlParser.createConfig())
+                .parserConfig(CalciteSqlParser.createMySqlConfig())
                 //.ruleSets(CalciteRulesSets.getDefault())
                 .defaultSchema(schema)
                 .build();

@@ -1,5 +1,6 @@
 package com.gerardnico.calcite.demo;
 
+import com.gerardnico.calcite.CalciteJdbc;
 import com.gerardnico.calcite.CalciteSql;
 import org.apache.calcite.adapter.jdbc.JdbcSchema;
 import org.apache.calcite.plan.RelTraitDef;
@@ -76,11 +77,7 @@ public class JdbcStore {
      */
     private SchemaPlus getOrCreateDefaultSchema() {
         if (defaultSchema == null) {
-            SchemaPlus rootSchema = Frameworks.createRootSchema(true);
-            defaultSchema = rootSchema.add(
-                    SCHEMA_NAME,
-                    JdbcSchema.create(rootSchema, null, dataSource, null, null)
-            );
+            defaultSchema = CalciteJdbc.getSchema(dataSource);
         }
         return defaultSchema;
     }
@@ -93,23 +90,6 @@ public class JdbcStore {
         }
     }
 
-    /**
-     * After having create a {@link RelNode regular expression} with the  {@link #getRelBuilder() builder},
-     * you can transform it into sql
-     *
-     * @param relNode
-     * @return the sql representation of the relNode
-     */
-    public String translateRelNodeToSql(RelNode relNode) {
-
-        try {
-            SqlDialect dialect = SqlDialectFactoryImpl.INSTANCE.create(getConnection().getMetaData());
-            return CalciteSql.fromRelNodeToSql(relNode, dialect);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
 
     /**
      * Execute a print a sql query
@@ -123,6 +103,13 @@ public class JdbcStore {
             System.out.println("FAILED! - " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @return the dialect for this connection
+     */
+    public SqlDialect getDialect() {
+        return CalciteSql.getDialect(getConnection());
     }
 
     /**
@@ -149,19 +136,5 @@ public class JdbcStore {
         }
     }
 
-    /**
-     * An utility Function that:
-     * * Translates a relnode into a query via {@link #translateRelNodeToSql(RelNode)}
-     * * Execute it and print it via {@link #executeAndPrintQuery(String)}
-     *
-     * @param relNode
-     */
-    public void translateRelNodeToSqlExecuteAndPrint(RelNode relNode) {
-        // Translate it to SQL
-        String sql = translateRelNodeToSql(relNode);
-        System.out.println("The SQL generated was:" + sql);
-        System.out.println();
-        // Execute
-        executeAndPrintQuery(sql);
-    }
+
 }

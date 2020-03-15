@@ -40,11 +40,6 @@ explain plan sql
 See:
 org.apache.calcite.test.SqlToRelTestBase#convertSqlToRel
 
-public SqlNode parseQuery(String sql) throws Exception {
-      final SqlParser.Config config =
-          SqlParser.configBuilder().setConformance(getConformance()).build();
-      SqlParser parser = SqlParser.create(sql, config);
-      return parser.parseQuery();
-    }
+
     
 RelRoot is the root of the tree

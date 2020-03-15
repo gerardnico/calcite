@@ -1,9 +1,10 @@
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.schema;
 
-import com.gerardnico.calcite.demo.RelBuilderExample;
-import com.gerardnico.calcite.schema.JdbcTest;
+import com.gerardnico.calcite.CalciteTableFunctionCountries;
+import com.gerardnico.calcite.demo.DatabaseConnectionSpec;
+import com.gerardnico.calcite.mock.Smalls;
+import com.gerardnico.calcite.demo.DatabaseInstance;
 import com.gerardnico.calcite.schema.hr.HrSchema;
-import com.gerardnico.calcite.schema.BookstoreSchema;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.adapter.clone.CloneSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
@@ -87,18 +88,18 @@ public class SchemaBuilder {
      *
      * @see CalciteSystemProperty#TEST_DB
      **/
-    public static final RelBuilderExample.DatabaseInstance DB =
-            RelBuilderExample.DatabaseInstance.valueOf(CalciteSystemProperty.TEST_DB.value());
+    public static final DatabaseInstance DB =
+            DatabaseInstance.valueOf(CalciteSystemProperty.TEST_DB.value());
 
     public SchemaBuilder addSchema(SchemaSpec schema) {
-        final ConnectionSpec cs;
+        final DatabaseConnectionSpec cs;
         final DataSource dataSource;
         switch (schema) {
             case REFLECTIVE_FOODMART:
                 actualSchema = rootSchema.add(schema.schemaName, new ReflectiveSchema(new JdbcTest.FoodmartSchema()));
                 return this;
             case JDBC_SCOTT:
-                cs = RelBuilderExample.DatabaseInstance.HSQLDB.scott;
+                cs = DatabaseInstance.HSQLDB.scott;
                 dataSource = JdbcSchema.dataSource(cs.url, cs.driver, cs.username, cs.password);
                 JdbcSchema jdbcScott = JdbcSchema.create(rootSchema, schema.schemaName, dataSource, cs.catalog, cs.schema);
                 actualSchema = rootSchema.add(schema.schemaName, jdbcScott);
@@ -129,10 +130,10 @@ public class SchemaBuilder {
                 return this;
             case SCOTT_WITH_TEMPORAL:
                 actualSchema = getOrCreateSchema(SchemaSpec.SCOTT);
-                actualSchema.add("products_temporal", new StreamTest.ProductsTemporalTable());
+                actualSchema.add("products_temporal", new StreamSchema.ProductsTemporalTable());
                 actualSchema.add("orders",
-                        new StreamTest.OrdersHistoryTable(
-                                StreamTest.OrdersStreamTableFactory.getRowList()));
+                        new StreamSchema.OrdersHistoryTable(
+                                StreamSchema.OrdersStreamTableFactory.getRowList()));
                 return this;
             case CLONE_FOODMART:
                 // Copy of the Jbdc one
@@ -162,8 +163,8 @@ public class SchemaBuilder {
                 return this;
             case ORINOCO:
                 actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());
-                actualSchema.add("ORDERS", new StreamTest.OrdersHistoryTable(
-                        StreamTest.OrdersStreamTableFactory.getRowList()));
+                actualSchema.add("ORDERS", new StreamSchema.OrdersHistoryTable(
+                        StreamSchema.OrdersStreamTableFactory.getRowList()));
                 return this;
             case POST:
                 actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());

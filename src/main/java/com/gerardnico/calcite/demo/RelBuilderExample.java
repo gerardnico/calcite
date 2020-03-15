@@ -16,9 +16,7 @@
  */
 package com.gerardnico.calcite.demo;
 
-import com.gerardnico.calcite.ConnectionSpec;
-import com.gerardnico.calcite.SchemaBuilder;
-import org.apache.calcite.config.CalciteSystemProperty;
+import com.gerardnico.calcite.schema.SchemaBuilder;
 import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
@@ -181,43 +179,6 @@ public class RelBuilderExample {
             .traitDefs((List<RelTraitDef>) null)
             .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2));
   }
-
-
-
-  /** Information necessary to create a JDBC connection. Specify one to run
-   * tests against a different database. (hsqldb is the default.) */
-  public enum DatabaseInstance {
-    HSQLDB(
-            new ConnectionSpec("jdbc:hsqldb:res:foodmart", "FOODMART", "FOODMART",
-                    "org.hsqldb.jdbcDriver", "foodmart"),
-            new ConnectionSpec("jdbc:hsqldb:res:scott", "SCOTT",
-                    "TIGER", "org.hsqldb.jdbcDriver", "SCOTT")),
-    H2(
-            new ConnectionSpec("jdbc:h2:" + CalciteSystemProperty.TEST_DATASET_PATH.value()
-                    + "/h2/target/foodmart;user=foodmart;password=foodmart",
-                    "foodmart", "foodmart", "org.h2.Driver", "foodmart"), null),
-    MYSQL(
-            new ConnectionSpec("jdbc:mysql://localhost/foodmart", "foodmart",
-                    "foodmart", "com.mysql.jdbc.Driver", "foodmart"), null),
-    ORACLE(
-            new ConnectionSpec("jdbc:oracle:thin:@localhost:1521:XE", "foodmart",
-                    "foodmart", "oracle.jdbc.OracleDriver", "FOODMART"), null),
-    POSTGRESQL(
-            new ConnectionSpec(
-                    "jdbc:postgresql://localhost/foodmart?user=foodmart&password=foodmart&searchpath=foodmart",
-                    "foodmart", "foodmart", "org.postgresql.Driver", "foodmart"), null);
-
-    public final ConnectionSpec foodmart;
-    public final ConnectionSpec scott;
-
-    DatabaseInstance(ConnectionSpec foodmart, ConnectionSpec scott) {
-      this.foodmart = foodmart;
-      this.scott = scott;
-    }
-  }
-
-
-
 
 
 }

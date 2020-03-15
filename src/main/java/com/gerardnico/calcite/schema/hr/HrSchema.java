@@ -1,6 +1,6 @@
 package com.gerardnico.calcite.schema.hr;
 
-import com.gerardnico.calcite.Smalls;
+import com.gerardnico.calcite.mock.Smalls;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.schema.QueryableTable;
 import org.apache.calcite.schema.TranslatableTable;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.mock;
 
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.DataContext;
@@ -27,7 +27,6 @@ import org.apache.calcite.linq4j.function.SemiStrict;
 import org.apache.calcite.linq4j.tree.Types;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
-import org.apache.calcite.rex.RexLiteral;
 import org.apache.calcite.runtime.SqlFunctions;
 import org.apache.calcite.schema.*;
 import org.apache.calcite.schema.impl.AbstractTable;

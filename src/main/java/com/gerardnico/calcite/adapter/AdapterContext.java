@@ -1,6 +1,6 @@
 package com.gerardnico.calcite.adapter;
 
-import com.gerardnico.calcite.SchemaBuilder;
+import com.gerardnico.calcite.schema.SchemaBuilder;
 import org.apache.calcite.DataContext;
 import org.apache.calcite.adapter.java.JavaTypeFactory;
 import org.apache.calcite.config.CalciteConnectionConfig;

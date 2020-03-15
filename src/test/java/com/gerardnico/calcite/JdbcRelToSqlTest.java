@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.tools.RelBuilder;
 import org.junit.Test;

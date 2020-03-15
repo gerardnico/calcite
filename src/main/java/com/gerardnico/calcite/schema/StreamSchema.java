@@ -1,4 +1,4 @@
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.schema;
 
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.DataContext;
@@ -22,7 +22,7 @@ import java.util.Map;
  * Extract of org.apache.calcite.test.StreamTest to get only the tables
  * and not the test
  */
-public class StreamTest {
+public class StreamSchema {
     /**
      * Base table for the Orders table. Manages the base schema used for the test tables and common
      * functions.

@@ -1,15 +1,13 @@
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.demo;
 
+import com.gerardnico.calcite.CalciteSql;
 import org.apache.calcite.adapter.jdbc.JdbcSchema;
 import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
-import org.apache.calcite.rel.rel2sql.RelToSqlConverter;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.SqlDialect;
 import org.apache.calcite.sql.SqlDialectFactoryImpl;
-import org.apache.calcite.sql.SqlSelect;
 import org.apache.calcite.sql.parser.SqlParser;
-import org.apache.calcite.sql.pretty.SqlPrettyWriter;
 import org.apache.calcite.tools.Frameworks;
 import org.apache.calcite.tools.Programs;
 import org.apache.calcite.tools.RelBuilder;
@@ -48,7 +46,7 @@ public class JdbcStore {
         this.password = password;
     }
 
-    static JdbcStore createDefault() {
+    public static JdbcStore createDefault() {
         return new JdbcStore(null, null, null, null);
     }
 

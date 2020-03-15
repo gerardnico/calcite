@@ -1,15 +1,13 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.rel2sql.RelToSqlConverter;
 import org.apache.calcite.sql.SqlDialect;
-import org.apache.calcite.sql.SqlDialectFactoryImpl;
 import org.apache.calcite.sql.SqlNode;
 import org.apache.calcite.sql.SqlSelect;
 import org.apache.calcite.sql.dialect.AnsiSqlDialect;
 import org.apache.calcite.sql.pretty.SqlPrettyWriter;
-
-import java.sql.SQLException;
 
 public class CalciteSql {
 

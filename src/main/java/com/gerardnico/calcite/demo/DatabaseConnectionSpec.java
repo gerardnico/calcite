@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gerardnico.calcite;
+package com.gerardnico.calcite.demo;
 
 /** Information necessary to create a JDBC connection.
  *
  * <p>Specify one to run tests against a different database. */
-public class ConnectionSpec {
+public class DatabaseConnectionSpec {
   public final String url;
   public final String username;
   public final String password;
@@ -27,8 +27,8 @@ public class ConnectionSpec {
   public final String schema;
   public final String catalog;
 
-  public ConnectionSpec(String url, String username, String password,
-                        String driver, String schema) {
+  public DatabaseConnectionSpec(String url, String username, String password,
+                                String driver, String schema) {
     this.url = url;
     this.username = username;
     this.password = password;

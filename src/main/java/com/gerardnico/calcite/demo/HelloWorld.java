@@ -2,7 +2,6 @@ package com.gerardnico.calcite.demo;
 
 import com.gerardnico.calcite.CalciteConnectionStatic;
 import com.gerardnico.calcite.CalciteSchemaStatic;
-import com.gerardnico.calcite.JdbcStore;
 import com.gerardnico.calcite.schema.hr.HrSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;

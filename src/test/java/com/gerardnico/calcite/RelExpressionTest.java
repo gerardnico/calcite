@@ -1,11 +1,17 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.demo.JdbcStore;
 import com.gerardnico.calcite.demo.RelBuilderExample;
 import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.sql.fun.SqlStdOperatorTable;
 import org.apache.calcite.tools.RelBuilder;
+import org.apache.calcite.tools.RelRunners;
 import org.junit.Test;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class RelExpressionTest {
 
@@ -15,6 +21,8 @@ public class RelExpressionTest {
     }
 
     /**
+     * Print a sequence of 1 to 10
+     *
      * WITH RECURSIVE aux(i) AS (
      *   VALUES (1)
      *   UNION ALL
@@ -23,11 +31,12 @@ public class RelExpressionTest {
      * SELECT * FROM aux
      *
      * https://calcite.apache.org/docs/algebra.html#recursive-queries
+     *
      */
     @Test
-    public void recursiveQueryTest() {
+    public void recursiveQueryTest() throws SQLException {
         RelBuilder builder = CalciteRel.getScott();
-        final RelNode node = builder
+        final RelNode relNode = builder
                 .values(new String[] { "i" }, 1)
                 .transientScan("aux")
                 .filter(
@@ -42,6 +51,7 @@ public class RelExpressionTest {
                                 builder.literal(1)))
                 .repeatUnion("aux", true)
                 .build();
-        System.out.println(RelOptUtil.toString(node));
+        CalciteRel.print(relNode);
+        CalciteRel.executeQueryAndPrint(relNode);
     }
 }

@@ -1,6 +1,7 @@
 package com.gerardnico.calcite.demo;
 
 import com.gerardnico.calcite.CalciteConnectionStatic;
+import com.gerardnico.calcite.CalciteJdbc;
 import com.gerardnico.calcite.CalciteSchemaStatic;
 import com.gerardnico.calcite.schema.hr.HrSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
@@ -37,7 +38,7 @@ public class HelloWorld {
                                     + "group by d.deptno\n"
                                     + "having count(*) > 1");
             ) {
-                JdbcStore.print(resultSet);
+                CalciteJdbc.printResultSet(resultSet);
             }
         }
     }

@@ -4,6 +4,7 @@ import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
+import org.apache.calcite.rel.RelRoot;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.SqlDialect;
 import org.apache.calcite.sql.parser.SqlParser;
@@ -80,7 +81,7 @@ public class CalciteRel {
      */
     public static void executeQueryAndPrint(RelNode relNode) {
         try (ResultSet resultSet = executeQuery(relNode)) {
-            JdbcStore.print(resultSet);
+            CalciteJdbc.printResultSet(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -100,4 +101,7 @@ public class CalciteRel {
         return CalciteSql.fromRelNodeToSql(relNode, sqlDialect);
     }
 
+    public static RelRoot fromSqlToRel(String sql) {
+        return null;
+    }
 }

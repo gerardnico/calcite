@@ -12,7 +12,7 @@ public class CalcitePlannerTest {
         HepPlanner helpPlanner = CalcitePlanner.createPlanner();
         final String sql = "(select name from dept union select ename from emp)\n"
                 + "intersect (select fname from customer.contact)";
-        //final RelRoot root = tester.convertSqlToRel(sql);
+        final RelRoot root = CalciteRel.fromSqlToRel(sql);
         //final RelNode relInitial = root.rel;
     }
 }

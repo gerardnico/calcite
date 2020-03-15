@@ -1,5 +1,6 @@
 package com.gerardnico.calcite.schema.queries;
 
+import com.gerardnico.calcite.CalciteJdbc;
 import com.gerardnico.calcite.demo.JdbcStore;
 import com.gerardnico.calcite.schema.hr.HrSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
@@ -21,7 +22,7 @@ public class HrFoodmartQuery {
                     + "from foodmart.sales_fact_1997 as s\n"
                     + "join hr.emps as e\n"
                     + "on e.empid = s.cust_id");
-            JdbcStore.print(resultSet);
+            CalciteJdbc.printResultSet(resultSet);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

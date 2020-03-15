@@ -1,6 +1,7 @@
 package com.gerardnico.calcite.demo;
 
 import com.gerardnico.calcite.CalciteJdbc;
+import com.gerardnico.calcite.CalciteRel;
 import com.gerardnico.calcite.CalciteSql;
 import org.apache.calcite.adapter.jdbc.JdbcSchema;
 import org.apache.calcite.plan.RelTraitDef;
@@ -30,7 +31,6 @@ public class JdbcStore {
     private final String url;
     private final String password;
     private DataSource dataSource;
-    private static String SCHEMA_NAME = "PUBLIC";
     private SchemaPlus defaultSchema;
 
     /**
@@ -60,14 +60,7 @@ public class JdbcStore {
 
 
     public RelBuilder getRelBuilder() {
-        return RelBuilder.create(
-                Frameworks.newConfigBuilder()
-                        .parserConfig(SqlParser.Config.DEFAULT)
-                        .defaultSchema(getOrCreateDefaultSchema())
-                        .traitDefs((List<RelTraitDef>) null)
-                        .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2))
-                        .build()
-        );
+        return CalciteRel.createDataStoreBasedRelBuilder(dataSource);
     }
 
     /**
@@ -98,7 +91,7 @@ public class JdbcStore {
      */
     public void executeAndPrintQuery(String sqlQuery) {
         try (ResultSet resultSet = getConnection().createStatement().executeQuery(sqlQuery)) {
-            print(resultSet);
+            CalciteJdbc.printResultSet(resultSet);
         } catch (SQLException e) {
             System.out.println("FAILED! - " + e.getMessage());
             e.printStackTrace();
@@ -112,29 +105,7 @@ public class JdbcStore {
         return CalciteSql.getDialect(getConnection());
     }
 
-    /**
-     * An utility function to print a resultSet
-     *
-     * @param resultSet
-     */
-    public static void print(ResultSet resultSet) {
-        try {
-            StringBuilder stringBuilder = new StringBuilder();
-            while (resultSet.next()) {
-                for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-                    stringBuilder
-                            .append(resultSet.getObject(i))
-                            .append(",");
-                }
-                stringBuilder.append("\n");
-            }
-            System.out.println();
-            System.out.println("Result:");
-            System.out.println(stringBuilder.toString());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 
 
 }

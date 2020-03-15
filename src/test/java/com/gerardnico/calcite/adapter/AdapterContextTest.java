@@ -3,6 +3,7 @@ package com.gerardnico.calcite.adapter;
 import org.apache.calcite.jdbc.CalcitePrepare;
 import org.apache.calcite.jdbc.CalciteSchema;
 import org.apache.calcite.jdbc.Driver;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -14,7 +15,9 @@ import java.util.List;
  * <a href=https://calcite.apache.org/docs/howto.html#testing-adapter-in-java>Testing adapter in Java</a>
  */
 public class AdapterContextTest {
+
     @Test
+    @Ignore
     public void testSelectAllFromTable() throws SQLException {
         AdapterContext ctx = new AdapterContext();
         List<String> defaultSchemaPath = ctx.getDefaultSchemaPath();

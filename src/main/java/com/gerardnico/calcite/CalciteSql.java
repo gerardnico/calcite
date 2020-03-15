@@ -2,20 +2,21 @@ package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.rel.RelNode;
+import org.apache.calcite.rel.RelRoot;
 import org.apache.calcite.rel.rel2sql.RelToSqlConverter;
-import org.apache.calcite.sql.SqlDialect;
-import org.apache.calcite.sql.SqlDialectFactoryImpl;
-import org.apache.calcite.sql.SqlNode;
-import org.apache.calcite.sql.SqlSelect;
+import org.apache.calcite.sql.*;
 import org.apache.calcite.sql.dialect.*;
 import org.apache.calcite.sql.parser.SqlParseException;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.sql.pretty.SqlPrettyWriter;
+import org.apache.calcite.sql2rel.SqlToRelConverter;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.calcite.prepare.Prepare.THREAD_EXPAND;
 
 public class CalciteSql {
 
@@ -32,20 +33,50 @@ public class CalciteSql {
     }
 
     /**
-     *
      * @param sql - A query
      * @return - the tree
      */
     public static SqlNode fromSqlToSqlNode(String sql) {
         try {
+            SqlParser parser = CalciteSqlParser.create(sql);
+            return parser.parseQuery();
+        } catch (SqlParseException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * @param sql - A query
+     * @param config - The Sql parser config
+     * @return - the tree
+     */
+    public static SqlNode fromSqlToSqlNode(String sql, SqlParser.Config config) {
+        try {
             SqlParser parser = CalciteSqlParser.create(
                     sql,
-                    CalciteSqlParser.createMySqlConfig()
+                    config
             );
             return parser.parseQuery();
         } catch (SqlParseException e) {
             throw new RuntimeException(e);
         }
+
+    }
+
+    public static SqlNode fromSqlToSqlNodeMySql(String sql){
+        return fromSqlToSqlNode(sql,CalciteSqlParser.createMySqlConfig());
+    }
+
+    /**
+     *
+     * @param sql
+     * @return a relNode
+     */
+    public static RelRoot fromSqlToRelNode(String sql) {
+
+        SqlNode sqlNode = fromSqlToSqlNode(sql);
+        return CalciteSqlNode.fromSqlNodeToRelNode(sqlNode);
 
     }
 
@@ -91,7 +122,6 @@ public class CalciteSql {
 
     /**
      * Get a dialect from a JDBC connection
-     *
      */
     static public SqlDialect getDialect(Connection connection) {
         try {

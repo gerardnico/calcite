@@ -8,7 +8,7 @@ public class CalciteSqlParser {
 
     /**
      *
-     * @return a parser with a MySql lexicon
+     * @return a parser config with a MySql lexicon
      */
     public static SqlParser.Config createMySqlConfig() {
         return SqlParser.configBuilder()
@@ -26,13 +26,13 @@ public class CalciteSqlParser {
     }
 
     /**
-     * Create a default parser with a {@link #createMySqlConfig()}
+     * Create a default parser
      * @param sql
      * @return
      */
     public static SqlParser create(String sql) {
 
-        return SqlParser.create(sql, createMySqlConfig());
+        return SqlParser.create(sql);
     }
 
     /**

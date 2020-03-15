@@ -101,7 +101,5 @@ public class CalciteRel {
         return CalciteSql.fromRelNodeToSql(relNode, sqlDialect);
     }
 
-    public static RelRoot fromSqlToRel(String sql) {
-        return null;
-    }
+
 }

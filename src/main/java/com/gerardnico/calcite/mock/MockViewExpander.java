@@ -16,6 +16,7 @@ import java.util.List;
 
 
 /**
+ * Can expand a view into relational expressions.
  * {@link RelOptTable.ViewExpander} implementation for testing usage.
  */
 public class MockViewExpander implements RelOptTable.ViewExpander {

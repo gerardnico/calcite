@@ -1,16 +1,16 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.demo.SqlValidator;
 import org.apache.calcite.runtime.CalciteContextException;
+import org.apache.calcite.sql.SqlNode;
 import org.apache.calcite.sql.SqlWriterConfig;
 import org.junit.Test;
 
 /**
  * Parser is used to:
- *   * pretty print
- *   * validate
+ * * pretty print
+ * * validate
  */
-public class SqlParserTest {
+public class CalciteSqlWriterTest {
 
     @Test
     public void prettyPrintDemoTest() {
@@ -28,8 +28,8 @@ public class SqlParserTest {
                 + "   range between interval '2:2' hour to minute preceding"
                 + "    and interval '1' day following)) "
                 + "order by gg desc nulls last, hh asc";
-        CalciteSqlParseTree calciteSqlParseTree = CalciteSqlParseTree
-                .createTreeFromSql(sql)
+        SqlNode sqlNode = CalciteSql.fromSqlToSqlNode(sql);
+        CalciteSqlWriter.fromSqlNode(sqlNode)
                 .withWriterConfig(c -> c
                         .withLineFolding(SqlWriterConfig.LineFolding.STEP)
                         .withSelectFolding(SqlWriterConfig.LineFolding.TALL)
@@ -37,25 +37,11 @@ public class SqlParserTest {
                         .withWhereFolding(SqlWriterConfig.LineFolding.TALL)
                         .withHavingFolding(SqlWriterConfig.LineFolding.TALL)
                         .withIndentation(4)
-                        .withClauseEndsLine(true));
-        calciteSqlParseTree.print();
+                        .withClauseEndsLine(true))
+                .print();
     }
 
 
-    @Test
-    public void parseValidationGoodTest() {
-        final String sql = "select * from SALES.EMP";
-        CalciteSqlParseTree calciteSqlParseTree = CalciteSqlParseTree
-                .createTreeFromSql(sql);
-        calciteSqlParseTree.validate(SqlValidator.createSqlValidator());
-    }
 
-    @Test(expected = CalciteContextException.class)
-    public void parseValidationBadTest() {
-        final String sql = "select * from YOLO"; // Yolo is not a table
-        CalciteSqlParseTree calciteSqlParseTree = CalciteSqlParseTree
-                .createTreeFromSql(sql);
-        calciteSqlParseTree.validate(SqlValidator.createSqlValidator());
-    }
 
 }

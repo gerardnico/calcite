@@ -5,7 +5,7 @@ import com.gerardnico.calcite.schema.queries.HrFoodmartQuery;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.junit.Test;
 
-public class SchemaReflectiveTest {
+public class CalciteSchemaReflectiveTest {
 
     @Test
     public void reflectiveWithCode() {

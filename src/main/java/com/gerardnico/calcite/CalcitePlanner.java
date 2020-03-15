@@ -1,5 +1,7 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.mock.MockRelOptPlanner;
+import org.apache.calcite.plan.RelOptPlanner;
 import org.apache.calcite.plan.hep.HepPlanner;
 import org.apache.calcite.plan.hep.HepProgram;
 import org.apache.calcite.rel.core.RelFactories;
@@ -23,5 +25,11 @@ public class CalcitePlanner {
         hepPlanner.addRule(new CoerceInputsRule(LogicalUnion.class, false,RelFactories.LOGICAL_BUILDER));
         hepPlanner.addRule(new CoerceInputsRule(LogicalIntersect.class, false,RelFactories.LOGICAL_BUILDER));
         return hepPlanner;
+    }
+
+    static public final RelOptPlanner getRelOptPlanner() {
+
+        return new MockRelOptPlanner(CalciteConnectionStatic.getContext());
+
     }
 }

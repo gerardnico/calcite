@@ -1,7 +1,11 @@
 package com.gerardnico.calcite;
 
+import org.apache.calcite.config.CalciteConnectionConfigImpl;
 import org.apache.calcite.config.CalciteConnectionProperty;
+import org.apache.calcite.config.NullCollation;
 import org.apache.calcite.jdbc.CalciteConnection;
+import org.apache.calcite.plan.Context;
+import org.apache.calcite.plan.Contexts;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -56,5 +60,18 @@ public class CalciteConnectionStatic {
      */
     public static CalciteConnection getConnectionWithModel(String modelPath) {
         return CalciteModel.getConnectionFromModel(modelPath);
+    }
+
+    /**
+     * @return a context from a connection :)
+     */
+    public static Context getContext() {
+        Properties properties = new Properties();
+        properties.setProperty(
+                CalciteConnectionProperty.DEFAULT_NULL_COLLATION.camelName(),
+                NullCollation.LOW.name()
+        );
+        CalciteConnectionConfigImpl connectionConfig = new CalciteConnectionConfigImpl(properties);
+        return Contexts.of(connectionConfig);
     }
 }

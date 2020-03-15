@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.sql.SQLException;
 
-public class RelExpressionTest {
+public class CalciteRelExpressionTest {
 
     @Test
     public void relExpression() {

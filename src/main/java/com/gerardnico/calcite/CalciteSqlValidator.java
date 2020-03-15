@@ -1,8 +1,9 @@
-package com.gerardnico.calcite.demo;
+package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.mock.MockCatalogReader;
 import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
 import com.gerardnico.calcite.mock.MockSqlOperatorTable;
+import org.apache.calcite.config.CalciteConnectionConfig;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
 import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.sql.SqlOperatorTable;
@@ -21,9 +22,9 @@ import org.apache.calcite.sql.validate.SqlValidatorImpl;
  *
  * This class that originates from the FarragoTestValidator
  */
-public class SqlValidator extends SqlValidatorImpl {
+public class CalciteSqlValidator extends SqlValidatorImpl {
 
-    SqlValidator(
+    CalciteSqlValidator(
             SqlOperatorTable sqlOperatorTable,
             SqlValidatorCatalogReader catalogReader,
             RelDataTypeFactory typeFactory,
@@ -36,20 +37,29 @@ public class SqlValidator extends SqlValidatorImpl {
         return true;
     }
 
-    static public SqlValidator createSqlValidator() {
+    /**
+     * Sample code that create a sql validator
+     * @return
+     */
+    static public CalciteSqlValidator createSqlValidator() {
 
         RelDataTypeFactory typeFactory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
         MockCatalogReader catalogReader = new MockCatalogReaderSimple(typeFactory, true).init();
         MockSqlOperatorTable sqlOperatorTable = new MockSqlOperatorTable(SqlStdOperatorTable.instance());
         MockSqlOperatorTable.addRamp(sqlOperatorTable);
 
-        SqlValidator sqlValidator = new SqlValidator(
+        CalciteSqlValidator sqlValidator = new CalciteSqlValidator(
                 sqlOperatorTable,
                 catalogReader,
                 typeFactory,
                 SqlConformanceEnum.DEFAULT);
 
         sqlValidator.setEnableTypeCoercion(true);
+
+        final CalciteConnectionConfig calciteConnectionConfig = CalciteConnectionStatic.getContext().unwrap(CalciteConnectionConfig.class);
+        if (calciteConnectionConfig != null) {
+            sqlValidator.setDefaultNullCollation(calciteConnectionConfig.defaultNullCollation());
+        }
 
         return sqlValidator;
     }

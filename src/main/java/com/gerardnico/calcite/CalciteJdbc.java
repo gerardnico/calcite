@@ -9,6 +9,9 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Static method that are related to Calcite and JDBC
+ */
 public class CalciteJdbc {
 
 

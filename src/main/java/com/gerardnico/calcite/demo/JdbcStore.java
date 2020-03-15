@@ -139,7 +139,10 @@ public class JdbcStore {
                             .append(resultSet.getObject(i))
                             .append(",");
                 }
+                stringBuilder.append("\n");
             }
+            System.out.println();
+            System.out.println("Result:");
             System.out.println(stringBuilder.toString());
         } catch (SQLException e) {
             throw new RuntimeException(e);

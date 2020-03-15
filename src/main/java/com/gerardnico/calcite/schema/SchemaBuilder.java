@@ -61,7 +61,7 @@ public class SchemaBuilder {
         CLONE_FOODMART("foodmart2"),
         JDBC_FOODMART_WITH_LATTICE("lattice"),
         GEO("GEO"),
-        HR("hr"),
+        HR("hrAndFoodmart"),
         JDBC_SCOTT("JDBC_SCOTT"),
         SCOTT("scott"),
         SCOTT_WITH_TEMPORAL("scott_temporal"),

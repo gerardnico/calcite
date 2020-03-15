@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "defaultSchema": "hr",
+  "schemas": [
+    {
+      "name": "hr",
+      "type": "custom",
+      "factory": "org.apache.calcite.adapter.java.ReflectiveSchema$Factory",
+      "operand": {
+        "class": "com.gerardnico.calcite.schema.hr.HrSchema",
+        "staticMethod": "createHrSchema"
+      }
+    },
+    {
+      "name": "foodmart",
+      "type": "custom",
+      "factory": "org.apache.calcite.adapter.java.ReflectiveSchema$Factory",
+      "operand": {
+        "class": "com.gerardnico.calcite.schema.foodmart.FoodmartSchema",
+        "staticMethod": "createFoodmartSchema"
+      }
+    }
+  ]
+}

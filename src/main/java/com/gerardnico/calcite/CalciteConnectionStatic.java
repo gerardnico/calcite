@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import org.apache.calcite.config.CalciteConnectionProperty;
 import org.apache.calcite.jdbc.CalciteConnection;
 
 import java.sql.Connection;
@@ -33,7 +34,10 @@ public class CalciteConnectionStatic {
         try {
             Class.forName("org.apache.calcite.jdbc.Driver");
             Properties info = new Properties();
+            // lex gives a lot of default lexical property
             info.setProperty("lex", "JAVA");
+            // You can define your with extra connection properties
+            info.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.name(),"false");
             return  unwrap(DriverManager.getConnection("jdbc:calcite:", info));
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e);

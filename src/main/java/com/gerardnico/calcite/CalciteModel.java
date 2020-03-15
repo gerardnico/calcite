@@ -1,5 +1,6 @@
 package com.gerardnico.calcite;
 
+import org.apache.calcite.config.CalciteConnectionProperty;
 import org.apache.calcite.jdbc.CalciteConnection;
 
 import java.sql.Connection;
@@ -22,9 +23,10 @@ public class CalciteModel {
 
             Properties properties = new Properties();
             properties.setProperty("model", modelPath);
+            properties.setProperty(CalciteConnectionProperty.CASE_SENSITIVE.name(),"false");
             Class.forName("org.apache.calcite.jdbc.Driver");
-
             Connection connection = DriverManager.getConnection("jdbc:calcite:", properties);
+
             return connection.unwrap(CalciteConnection.class);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);

@@ -51,7 +51,7 @@ public class HelloWorld {
 
         SchemaPlus rootSchema = CalciteSchemaStatic.getRootSchemaFromCalciteConnection(connection);
         Schema schema = new ReflectiveSchema(new HrSchema());
-        rootSchema.add("hr", schema);
+        rootSchema.add("hrAndFoodmart", schema);
 
     }
 }

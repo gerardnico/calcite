@@ -3,10 +3,12 @@ package com.gerardnico.calcite.schema.hr;
 import com.gerardnico.calcite.mock.Smalls;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.schema.QueryableTable;
+import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.TranslatableTable;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.logging.Level;
 
 /**
  * Object that will be used via reflection to create the "hr" schema.
@@ -40,9 +42,6 @@ import java.util.Collections;
  */
 
 public class HrSchema {
-    
-
-   
 
     @Override
     public String toString() {
@@ -55,16 +54,19 @@ public class HrSchema {
             new HrEmployee(150, 10, "Sebastian", 7000, null),
             new HrEmployee(110, 10, "Theodore", 11500, 250),
     };
+
     public final HrDepartment[] depts = {
             new HrDepartment(10, "Sales", Arrays.asList(emps[0], emps[2]),
                     new HrLocation(-122, 38)),
             new HrDepartment(30, "Marketing", ImmutableList.of(), new HrLocation(0, 52)),
             new HrDepartment(40, "HR", Collections.singletonList(emps[1]), null),
     };
+
     public final HrDependent[] hrDependents = {
             new HrDependent(10, "Michael"),
             new HrDependent(10, "Jane"),
     };
+
     public final HrDependent[] locations = {
             new HrDependent(10, "San Francisco"),
             new HrDependent(20, "San Diego"),
@@ -78,4 +80,7 @@ public class HrSchema {
         return Smalls.view(s);
     }
 
+    public static HrSchema createHrSchema() {
+        return new HrSchema();
+    }
 }

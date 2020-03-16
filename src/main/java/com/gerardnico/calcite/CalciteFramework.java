@@ -42,7 +42,7 @@ public class CalciteFramework {
      * Creates a config based on the SCOTT schema, with tables EMP and DEPT.
      * @return
      */
-    public static FrameworkConfig configScottBased() {
+    public static FrameworkConfig configScottShemaBased() {
         return Frameworks.newConfigBuilder()
                 .parserConfig(SqlParser.Config.DEFAULT)
                 .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.SCOTT_WITH_TEMPORAL))

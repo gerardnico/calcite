@@ -20,7 +20,7 @@ public class CalciteRel {
      * @return a {@link RelBuilder} with a schema mapped to the SCOTT database, with tables EMP and DEPT.
      */
     public static RelBuilder createHrScottBasedRelBuilder() {
-        final FrameworkConfig config = CalciteFramework.configScottBased();
+        final FrameworkConfig config = CalciteFramework.configScottShemaBased();
         return RelBuilder.create(config);
     }
 

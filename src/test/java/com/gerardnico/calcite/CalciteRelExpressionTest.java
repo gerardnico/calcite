@@ -17,7 +17,7 @@ public class CalciteRelExpressionTest {
     /**
      * Example modified of <a href="https://calcite.apache.org/docs/algebra.html#push-and-pop">Push and pop</a>
      * The first join has not the good key
-     *
+     * <p>
      * There is also example code at <a href="https://github.com/apache/calcite/blob/master/core/src/test/java/org/apache/calcite/examples/RelBuilderExample.java#L147">example4</a>
      */
     @Test
@@ -26,7 +26,7 @@ public class CalciteRelExpressionTest {
         final RelNode left = builder
                 .scan("CUSTOMERS")
                 .scan("ORDERS")
-                    .join(JoinRelType.INNER, "CUSTOMER_ID")
+                .join(JoinRelType.INNER, "CUSTOMER_ID")
                 .build();
 
         System.out.println("Print the Customers/Orders SQL");
@@ -117,7 +117,7 @@ public class CalciteRelExpressionTest {
         System.out.println();
 
         System.out.println("Print the SQL");
-        String sql =  CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+        String sql = CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
         System.out.println(sql);
 
         System.out.println("Execute the relational expression");

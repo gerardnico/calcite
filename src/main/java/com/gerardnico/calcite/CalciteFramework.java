@@ -1,6 +1,7 @@
 package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.schema.SchemaBuilder;
+import com.gerardnico.calcite.schema.hr.HrSchema;
 import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.plan.Contexts;
@@ -70,8 +71,7 @@ public class CalciteFramework {
     public static FrameworkConfig configOrderEntrySchemaBased() {
         SchemaPlus rootSchema = Frameworks.createRootSchema(true);
         ReflectiveSchema schema = new ReflectiveSchema(new OrderEntrySchema());
-        rootSchema.add("OE", schema);
-        SchemaPlus orderEntry = rootSchema.getSubSchema("OE");
+        SchemaPlus orderEntry = rootSchema.add("OE", schema);
         return Frameworks.newConfigBuilder()
                 .parserConfig(SqlParser.Config.DEFAULT)
                 .defaultSchema(orderEntry)
@@ -85,9 +85,12 @@ public class CalciteFramework {
      * @return
      */
     public static FrameworkConfig configHrSchemaBased() {
+        SchemaPlus rootSchema = Frameworks.createRootSchema(true);
+        ReflectiveSchema schema = new ReflectiveSchema(new HrSchema());
+        SchemaPlus hr = rootSchema.add("HR", schema);
         return Frameworks.newConfigBuilder()
                 .parserConfig(SqlParser.Config.DEFAULT)
-                .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.HR))
+                .defaultSchema(hr)
                 .build();
     }
 

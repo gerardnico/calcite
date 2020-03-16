@@ -18,12 +18,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * 
  * Demo the filter early optimization.
- *
+ * <p>
  * Example based
  * on <a href="https://github.com/michaelmior/calcite-notebooks/blob/master/query-optimization.ipynb">query-optimization.ipynb</a>
- *
+ * <p>
  * The VolcanoPlanner attempts to apply a set of rules to minimize the cost of executing a query (Cost Based Optimizer)
  * VolcanoPlanner is the default planner used by Calcite.
  * Note that all the operators in the tree we constructed above are logical operators meaning
@@ -33,7 +32,6 @@ import java.sql.SQLException;
  * Each physical operator in Calcite has a calling convention which specifies how the query will actually be executed.
  * Since we're not working with an actual database we'll use EnumerableConvention which simply implements queries over
  * collections implementing the Enumerable interface.
- *
  */
 public class CalcitePlannerVolcanoTest {
 
@@ -53,11 +51,12 @@ public class CalcitePlannerVolcanoTest {
          * select * from emps inner join depts on deptno
          * where empid = 100
          */
-        RelNode opTree = relBuilder
+        RelNode sqlNode = relBuilder
                 .scan("emps")
                 .scan("depts")
                 .join(JoinRelType.INNER, "deptno")
                 .filter(relBuilder.equals(relBuilder.field("empid"), relBuilder.literal(100)))
+                .project(relBuilder.field("name"))
                 .build();
 
         /**
@@ -66,7 +65,7 @@ public class CalcitePlannerVolcanoTest {
         System.out.println("----------------------------");
         System.out.println("Build relational expression");
         System.out.println("----------------------------");
-        CalciteRel.explain(opTree);
+        CalciteRel.explain(sqlNode);
         /**
          * 3:LogicalFilter(condition=[=($0, 100)])
          *   2:LogicalJoin(condition=[=($1, $5)], joinType=[inner])
@@ -80,11 +79,11 @@ public class CalcitePlannerVolcanoTest {
          *
          * VolcanoPlanner has a default set of rules which includes {@link FilterJoinRule}
          */
-        RelOptCluster cluster = opTree.getCluster();
+        RelOptCluster cluster = sqlNode.getCluster();
         VolcanoPlanner planner = (VolcanoPlanner) cluster.getPlanner();
 
         RelTraitSet desiredTraits = cluster.traitSet().replace(EnumerableConvention.INSTANCE);
-        RelNode newRoot = planner.changeTraits(opTree, desiredTraits);
+        RelNode newRoot = planner.changeTraits(sqlNode, desiredTraits);
         planner.setRoot(newRoot);
 
         RelNode optimized = planner.findBestExp();
@@ -98,11 +97,9 @@ public class CalcitePlannerVolcanoTest {
         System.out.println("This means we can now execute the optimized query and get a result.");
         System.out.println("----------------------------");
 
-//        try (ResultSet result = RelRunners.run(optimized).executeQuery()) {
-//            while (result.next()) {
-//                System.out.println(result.getString(1) + " " + result.getString(7));
-//            }
-//        }
+        // Not working
+        // CalciteRel.executeAndPrint(optimized);
+
 
     }
 }

@@ -1,8 +1,9 @@
 package com.gerardnico.calcite.schema.hr;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class HrDependent {
+public class HrDependent   implements Serializable  {
     public final int empid;
     public final String name;
 

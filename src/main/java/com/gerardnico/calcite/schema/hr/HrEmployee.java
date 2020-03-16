@@ -1,9 +1,11 @@
 package com.gerardnico.calcite.schema.hr;
 
+import java.io.Serializable;
+
 /**
  * Object that will be used via reflection to create the "emps" table.
  */
-public class HrEmployee {
+public class HrEmployee  implements Serializable {
 
     public final int empid;
     public final int deptno;

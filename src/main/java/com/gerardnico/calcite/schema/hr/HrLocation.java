@@ -1,11 +1,18 @@
 package com.gerardnico.calcite.schema.hr;
 
 
-public class HrLocation {
+import java.io.Serializable;
+
+public class HrLocation  implements Serializable {
     public final int x;
     public final int y;
+    public final int locationId;
+    public final String name;
 
-    public HrLocation(int x, int y) {
+    public HrLocation(int locationId, String name, int x, int y) {
+
+        this.locationId = locationId;
+        this.name = name;
         this.x = x;
         this.y = y;
     }

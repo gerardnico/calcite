@@ -1,7 +1,6 @@
 package com.gerardnico.calcite.schema.queries;
 
 import com.gerardnico.calcite.CalciteJdbc;
-import com.gerardnico.calcite.demo.JdbcStore;
 import com.gerardnico.calcite.schema.hr.HrSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 

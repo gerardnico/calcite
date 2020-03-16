@@ -16,6 +16,7 @@ public class CalciteRelExpressionTest {
 
     /**
      * Example modified of <a href="https://calcite.apache.org/docs/algebra.html#push-and-pop">Push and pop</a>
+     * The first join has not the good key
      */
     @Test
     public void pushAndPopBushyJoinTest() {
@@ -88,6 +89,34 @@ public class CalciteRelExpressionTest {
 
         System.out.println("Print the SQL is not working because (org.apache.calcite.rel.logical.LogicalRepeatUnion) is not implemented");
         // CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+
+        System.out.println("Execute the relational expression");
+        CalciteRel.executeAndPrint(relNode);
+    }
+
+    /**
+     * Example from the doc <a href="https://calcite.apache.org/docs/algebra.html#adding-a-filter-and-aggregate">Filter and Aggregate</a>
+     */
+    @Test
+    public void filterAndAggregateTest() {
+        RelBuilder builder = CalciteRel.createScottBasedRelBuilder();
+        final RelNode relNode = builder
+                .scan("EMP")
+                .aggregate(builder.groupKey("DEPTNO"),
+                        builder.count(false, "C"),
+                        builder.sum(false, "S", builder.field("SAL")))
+                .filter(
+                        builder.call(SqlStdOperatorTable.GREATER_THAN,
+                                builder.field("C"),
+                                builder.literal(10)))
+                .build();
+        System.out.println("Print the relational expression");
+        CalciteRel.print(relNode);
+        System.out.println();
+
+        System.out.println("Print the SQL");
+        String sql =  CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+        System.out.println(sql);
 
         System.out.println("Execute the relational expression");
         CalciteRel.executeAndPrint(relNode);

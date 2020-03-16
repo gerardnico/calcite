@@ -9,7 +9,11 @@ import org.apache.calcite.tools.RelBuilder;
 import org.junit.Test;
 import  org.apache.calcite.rel.rules.FilterJoinRule;
 /**
- * Example fount at <a href="https://github.com/michaelmior/calcite-notebooks/blob/master/query-optimization.ipynb">query-optimization.ipynb</a>
+ * 
+ * Demo the filter early optimization.
+ *
+ * Example based
+ * on <a href="https://github.com/michaelmior/calcite-notebooks/blob/master/query-optimization.ipynb">query-optimization.ipynb</a>
  */
 public class CalcitePlannerHepTest {
 

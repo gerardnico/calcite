@@ -4,7 +4,9 @@ import com.gerardnico.calcite.CalciteTableFunctionCountries;
 import com.gerardnico.calcite.demo.DatabaseConnectionSpec;
 import com.gerardnico.calcite.mock.Smalls;
 import com.gerardnico.calcite.demo.DatabaseInstance;
+import com.gerardnico.calcite.schema.foodmart.FoodmartSchema;
 import com.gerardnico.calcite.schema.hr.HrSchema;
+import com.gerardnico.calcite.schema.lingual.LingualSchema;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.adapter.clone.CloneSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
@@ -96,7 +98,7 @@ public class SchemaBuilder {
         final DataSource dataSource;
         switch (schema) {
             case REFLECTIVE_FOODMART:
-                actualSchema = rootSchema.add(schema.schemaName, new ReflectiveSchema(new JdbcTest.FoodmartSchema()));
+                actualSchema = rootSchema.add(schema.schemaName, new ReflectiveSchema(new FoodmartSchema()));
                 return this;
             case JDBC_SCOTT:
                 cs = DatabaseInstance.HSQLDB.scott;
@@ -156,7 +158,7 @@ public class SchemaBuilder {
                 return this;
             case LINGUAL:
                 actualSchema = rootSchema.add(schema.schemaName,
-                        new ReflectiveSchema(new JdbcTest.LingualSchema()));
+                        new ReflectiveSchema(new LingualSchema()));
                 return this;
             case BLANK:
                 actualSchema = rootSchema.add(schema.schemaName, new AbstractSchema());

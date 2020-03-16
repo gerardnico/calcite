@@ -3,6 +3,7 @@ package com.gerardnico.calcite.schema.foodmart;
 /**
  * Object that will be used via reflection to create the "foodmart"
  * schema.
+ * Extract of org.apache.calcite.test.JdbcTest
  */
 public class FoodmartSchema {
 

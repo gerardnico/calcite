@@ -14,11 +14,20 @@ A repository of [Calcite](https://calcite.apache.org/) demo's
   * [HelloWorld](src/main/java/com/gerardnico/calcite/demo/HelloWorld.java) - A query (The first demo of the doc)
   * [Query Planning process](src/test/java/com/gerardnico/calcite/CalciteFrameworksTest.java) - parse sql, validate, transform to relation expression and execute with a [Planner](https://github.com/apache/calcite/blob/master/core/src/main/java/org/apache/calcite/tools/Planner.java)
 
-## Other demos
+## Demo Sql Parsing
  
+Select Statement:
   * [Sql Select Info](src/test/java/com/gerardnico/calcite/CalciteSqlSelectTest.java) - Parse a Select Sql and extracts tokens
   * [Sql Select Visitor](src/test/java/com/gerardnico/calcite/CalciteSqlVisitorTest.java) - Parse a Select Sql and build the tree (SqlNode) and visit it
   * [Sql Pretty Print](src/test/java/com/gerardnico/calcite/CalciteSqlWriterTest.java) - Parse a SQL to SqlNode and print it pretty
+  
+There is also other [node type](https://github.com/apache/calcite/tree/master/core/src/main/java/org/apache/calcite/sql):
+  * [SqlCreate](https://github.com/apache/calcite/blob/master/core/src/main/java/org/apache/calcite/sql/SqlCreate.java)
+  * [SqlInsert](https://github.com/apache/calcite/blob/master/core/src/main/java/org/apache/calcite/sql/SqlInsert.java)
+  * ...
+
+## Other demos
+
   * [Sql Validation](src/test/java/com/gerardnico/calcite/CalciteSqlValidationTest.java) - Parse a SQL to SqlNode and validate it
   * [Relational Expression](src/test/java/com/gerardnico/calcite/CalciteRelExpressionTest.java) - shows how to create several relational expression, print the sql and execute them
   * [Relational Expression Optimization with the HepPlanner](src/test/java/com/gerardnico/calcite/CalcitePlannerHepTest.java) - shows the filter early optimization

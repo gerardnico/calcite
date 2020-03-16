@@ -8,6 +8,7 @@ import org.apache.calcite.rel.RelWriter;
 import org.apache.calcite.rel.externalize.RelWriterImpl;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.SqlDialect;
+import org.apache.calcite.sql.SqlExplainLevel;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.tools.*;
 
@@ -62,6 +63,16 @@ public class CalciteRel {
         RelWriter rw = new RelWriterImpl(new PrintWriter(System.out, true));
         relNode.explain(rw);
     }
+
+    /**
+     *
+     * Explain is just a {@link #print(RelNode)}
+     * @param relNode
+     */
+    public static void explainAll(RelNode relNode) {
+        System.out.println(RelOptUtil.toString(relNode, SqlExplainLevel.ALL_ATTRIBUTES));
+    }
+
 
     /**
      * @param relNode

@@ -6,16 +6,13 @@ import org.apache.calcite.tools.FrameworkConfig;
 import org.apache.calcite.tools.Planner;
 import org.junit.Test;
 
-public class CalciteSqlSelectTest {
-
+public class CalciteSqlVisitorTest {
 
     @Test
-    public void sqlSelect() throws SqlParseException {
+    public void sqlVisitor() throws SqlParseException {
         FrameworkConfig config = CalciteFramework.configScottShemaBased();
         Planner planner = CalcitePlanner.getPlannerFromFrameworkConfig(config);
-        SqlNode sqlNode = planner.parse("select deptno, count(1) from emp where SAL between 1000 and 2000 group by deptno");
-        CalciteSqlSelect.printInfo(sqlNode);
+        SqlNode sqlNode = planner.parse("select cast(deptno as varchar), count(1) from emp where SAL between 1000 and 2000 group by deptno");
+        sqlNode.accept(new CalciteSqlVisitor());
     }
-
-
 }

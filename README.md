@@ -9,6 +9,7 @@
 ## Other demos
  
   * [Sql Select Info](src/test/java/com/gerardnico/calcite/CalciteSqlSelectTest.java) - Parse a Select Sql and extracts tokens
+  * [Sql Select Visitor](src/test/java/com/gerardnico/calcite/CalciteSqlVisitorTest.java) - Parse a Select Sql and build the tree (SqlNode) and visit it
   * [Sql Pretty Print](src/test/java/com/gerardnico/calcite/CalciteSqlWriterTest.java) - Parse a SQL to SqlNode and print it pretty
   * [Sql Validation](src/test/java/com/gerardnico/calcite/CalciteSqlValidationTest.java) - Parse a SQL to SqlNode and validate it
   * [Relational Expression](src/test/java/com/gerardnico/calcite/CalciteRelExpressionTest.java) - shows how to create several relational expression, print the sql and execute them

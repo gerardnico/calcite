@@ -22,9 +22,9 @@ import org.apache.calcite.sql.validate.SqlValidatorImpl;
  *
  * This class that originates from the FarragoTestValidator
  */
-public class CalciteSqlValidator extends SqlValidatorImpl {
+public class CalciteSqlValidatorCustom extends SqlValidatorImpl {
 
-    CalciteSqlValidator(
+    CalciteSqlValidatorCustom(
             SqlOperatorTable sqlOperatorTable,
             SqlValidatorCatalogReader catalogReader,
             RelDataTypeFactory typeFactory,
@@ -37,32 +37,7 @@ public class CalciteSqlValidator extends SqlValidatorImpl {
         return true;
     }
 
-    /**
-     * Sample code that create a sql validator
-     * @return
-     */
-    static public CalciteSqlValidator createSqlValidator() {
 
-        RelDataTypeFactory typeFactory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
-        MockJdbcCatalogReader catalogReader = new MockCatalogReaderSimple(typeFactory, true).init();
-        MockSqlOperatorTable sqlOperatorTable = new MockSqlOperatorTable(SqlStdOperatorTable.instance());
-        MockSqlOperatorTable.addRamp(sqlOperatorTable);
-
-        CalciteSqlValidator sqlValidator = new CalciteSqlValidator(
-                sqlOperatorTable,
-                catalogReader,
-                typeFactory,
-                SqlConformanceEnum.DEFAULT);
-
-        sqlValidator.setEnableTypeCoercion(true);
-
-        final CalciteConnectionConfig calciteConnectionConfig = CalciteConnectionStatic.getContext().unwrap(CalciteConnectionConfig.class);
-        if (calciteConnectionConfig != null) {
-            sqlValidator.setDefaultNullCollation(calciteConnectionConfig.defaultNullCollation());
-        }
-
-        return sqlValidator;
-    }
 
     @Override
     public SqlValidatorCatalogReader getCatalogReader() {

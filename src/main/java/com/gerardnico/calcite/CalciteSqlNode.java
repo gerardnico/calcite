@@ -5,7 +5,6 @@ import org.apache.calcite.plan.RelOptCluster;
 import org.apache.calcite.plan.RelOptTable;
 import org.apache.calcite.prepare.Prepare;
 import org.apache.calcite.rel.RelRoot;
-import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
 import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.rex.RexBuilder;
@@ -13,18 +12,21 @@ import org.apache.calcite.sql.SqlNode;
 import org.apache.calcite.sql.type.SqlTypeFactoryImpl;
 import org.apache.calcite.sql2rel.SqlToRelConverter;
 import org.apache.calcite.sql2rel.StandardConvertletTable;
+import org.apache.calcite.tools.FrameworkConfig;
+import org.apache.calcite.tools.Planner;
+import org.apache.calcite.tools.ValidationException;
 
-import static com.gerardnico.calcite.CalcitePlanner.getRelOptPlanner;
+import static com.gerardnico.calcite.CalcitePlanner.getMockRelOptPlanner;
 
 public class CalciteSqlNode {
 
     /**
-     * Validate the SQl Node against the schema
+     * Validate the SQl Node against the schema with a planner object
      * @return a validated sql node with a SqlValidator
-     * Example: See {@link CalciteSqlValidator#createSqlValidator()}
+     * To get a planner, see {@link CalcitePlanner#getPlannerFromFrameworkConfig(FrameworkConfig)}
      */
-    public static SqlNode validate(CalciteSqlValidator sqlValidator, SqlNode sqlNode) {
-        return sqlValidator.validate(sqlNode);
+    public static void validate(Planner planner, SqlNode sqlNode) throws ValidationException {
+        CalciteSqlValidation.validateFromPlanner(planner, sqlNode);
     }
 
     /**
@@ -34,7 +36,7 @@ public class CalciteSqlNode {
      */
     public static RelRoot fromSqlNodeToRelNode(SqlNode sqlNode) {
 
-        final CalciteSqlValidator sqlValidator = CalciteSqlValidator.createSqlValidator();
+        final CalciteSqlValidatorCustom sqlValidator = CalciteSqlValidation.createCustomSqlValidator();
 
         // SqlToRelConverter.Config localConfig = SqlToRelConverter.Config.DEFAULT;
         SqlToRelConverter.Config sqlToRelConfig = SqlToRelConverter.configBuilder()
@@ -45,7 +47,7 @@ public class CalciteSqlNode {
 
         final RelDataTypeFactory typeFactory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
         final RexBuilder rexBuilder = new RexBuilder(typeFactory);
-        final RelOptCluster cluster = RelOptCluster.create(getRelOptPlanner(), rexBuilder);
+        final RelOptCluster cluster = RelOptCluster.create(getMockRelOptPlanner(), rexBuilder);
 
         // Can expand a view into relational expressions.
         final RelOptTable.ViewExpander viewExpander = new MockViewExpander(

@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CalciteRelToSqlTest {
+public class CalciteRelJdbcTest {
 
     @Test
     public void relToSqlTest() {
@@ -27,6 +27,8 @@ public class CalciteRelToSqlTest {
                 preparedStatement.setInt(1, i);
                 preparedStatement.execute();
             }
+            System.out.println("Records inserted");
+            System.out.println();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -40,6 +42,8 @@ public class CalciteRelToSqlTest {
                 .build();
         String sql = CalciteRel.fromRelNodeToSql(relNode,jdbcStore.getDialect());
         System.out.println(sql);
+        System.out.println("Execute the relational expression gives a pointer exception");
+        // Null pointer exception: CalciteRel.executeAndPrint(relNode);
 
         // Project Fetch
         int offset = 0;
@@ -50,6 +54,8 @@ public class CalciteRelToSqlTest {
                 .build();
         sql = CalciteRel.fromRelNodeToSql(relNode,jdbcStore.getDialect());
         System.out.println(sql);
+        System.out.println("Execute the SQL");
+        jdbcStore.executeAndPrintQuery(sql);
 
 
     }

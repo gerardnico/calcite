@@ -1,12 +1,19 @@
 package com.gerardnico.calcite;
 
 import org.apache.calcite.config.Lex;
+import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.sql.validate.SqlConformanceEnum;
 
 public class CalciteSqlParser {
 
     /**
+     * The parser config set the Lexical configuration
+     * Ie
+     *   * how identifiers are quoted,
+     *   * whether they are converted to upper or lower
+     *
+     * This is the default and it can also be set on a {@link CalciteConnectionStatic#getConnectionWithoutModel connection level}
      *
      * @return a parser config with a MySql lexicon
      */
@@ -15,6 +22,7 @@ public class CalciteSqlParser {
                 .setCaseSensitive(false)
                 .setLex(Lex.MYSQL)
                 .setConformance(SqlConformanceEnum.DEFAULT)
+
                 .build();
     }
 

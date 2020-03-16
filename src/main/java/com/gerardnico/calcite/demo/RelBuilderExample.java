@@ -25,7 +25,7 @@ public class RelBuilderExample {
   }
 
   public void runAllExamples() {
-    RelBuilder builder = CalciteRel.createScottBasedRelBuilder();
+    RelBuilder builder = CalciteRel.createHrScottBasedRelBuilder();
     for (int i = 0; i < 4; i++) {
       doExample(builder, i);
       final RelNode node = builder.build();

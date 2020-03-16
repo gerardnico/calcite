@@ -20,7 +20,7 @@ public class CalciteRel {
     /**
      * @return a {@link RelBuilder} with a schema mapped to the SCOTT database, with tables EMP and DEPT.
      */
-    public static RelBuilder createScottBasedRelBuilder() {
+    public static RelBuilder createHrScottBasedRelBuilder() {
         final FrameworkConfig config = CalciteFramework.configScottBased();
         return RelBuilder.create(config);
     }
@@ -37,7 +37,6 @@ public class CalciteRel {
         FrameworkConfig config = Frameworks.newConfigBuilder()
                 .parserConfig(SqlParser.Config.DEFAULT)
                 .defaultSchema(schemaPlus)
-                .traitDefs((List<RelTraitDef>) null)
                 .programs(CalciteProgram.createHeuristicJoinOrderProgram())
                 .build();
         return RelBuilder.create(config);

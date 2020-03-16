@@ -8,14 +8,20 @@ import org.apache.calcite.rel.core.RelFactories;
 import org.apache.calcite.rel.logical.LogicalIntersect;
 import org.apache.calcite.rel.logical.LogicalUnion;
 import org.apache.calcite.rel.rules.*;
+import org.apache.calcite.tools.FrameworkConfig;
+import org.apache.calcite.tools.Frameworks;
+import org.apache.calcite.tools.Planner;
 
 /**
- * See
- * org.apache.calcite.test.HepPlannerTest
+ *
  */
 public class CalcitePlanner {
 
-    static public HepPlanner createPlanner(){
+    /**
+     * See org.apache.calcite.test.HepPlannerTest
+     * @return
+     */
+    static public HepPlanner createHepPlanner(){
         HepProgram hepProgram = HepProgram.builder().build();
         HepPlanner hepPlanner = new HepPlanner(hepProgram);
         hepPlanner.addRule(JoinToMultiJoinRule.INSTANCE);
@@ -27,9 +33,14 @@ public class CalcitePlanner {
         return hepPlanner;
     }
 
-    static public final RelOptPlanner getRelOptPlanner() {
+    static public final RelOptPlanner getMockRelOptPlanner() {
 
         return new MockRelOptPlanner(CalciteConnectionStatic.getContext());
 
     }
+
+    static public final Planner getPlannerFromFrameworkConfig(FrameworkConfig frameworkConfig){
+        return Frameworks.getPlanner(frameworkConfig);
+    }
+
 }

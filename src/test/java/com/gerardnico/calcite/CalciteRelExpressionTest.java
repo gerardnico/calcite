@@ -17,6 +17,8 @@ public class CalciteRelExpressionTest {
     /**
      * Example modified of <a href="https://calcite.apache.org/docs/algebra.html#push-and-pop">Push and pop</a>
      * The first join has not the good key
+     *
+     * There is also example code at <a href="https://github.com/apache/calcite/blob/master/core/src/test/java/org/apache/calcite/examples/RelBuilderExample.java#L147">example4</a>
      */
     @Test
     public void pushAndPopBushyJoinTest() {
@@ -67,7 +69,7 @@ public class CalciteRelExpressionTest {
 
     @Test
     public void recursiveQueryTest() {
-        RelBuilder builder = CalciteRel.createScottBasedRelBuilder();
+        RelBuilder builder = CalciteRel.createHrScottBasedRelBuilder();
         final RelNode relNode = builder
                 .values(new String[]{"i"}, 1)
                 .transientScan("aux")
@@ -99,7 +101,7 @@ public class CalciteRelExpressionTest {
      */
     @Test
     public void filterAndAggregateTest() {
-        RelBuilder builder = CalciteRel.createScottBasedRelBuilder();
+        RelBuilder builder = CalciteRel.createHrScottBasedRelBuilder();
         final RelNode relNode = builder
                 .scan("EMP")
                 .aggregate(builder.groupKey("DEPTNO"),

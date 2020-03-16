@@ -24,10 +24,11 @@ public class CalciteJdbc {
         try {
             SchemaPlus rootSchema = Frameworks.createRootSchema(true);
             String schemaName = dataSource.getConnection().getSchema();
-            return rootSchema.add(
+            rootSchema.add(
                     schemaName,
-                    JdbcSchema.create(rootSchema, null, dataSource, null, null)
+                    JdbcSchema.create(rootSchema, schemaName, dataSource, null, null)
             );
+            return rootSchema.getSubSchema(schemaName);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -1,22 +1,17 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.mock.MockJdbcCatalogReader;
-import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
 import com.gerardnico.calcite.schema.SchemaBuilder;
-import com.gerardnico.calcite.schema.hr.HrSchema;
 import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
-import org.apache.calcite.adapter.clone.CloneSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
+import org.apache.calcite.plan.Contexts;
 import org.apache.calcite.plan.RelTraitDef;
-import org.apache.calcite.rel.type.RelDataTypeFactory;
 import org.apache.calcite.rel.type.RelDataTypeSystem;
-import org.apache.calcite.schema.SchemaFactory;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.parser.SqlParser;
-import org.apache.calcite.sql.type.SqlTypeFactoryImpl;
 import org.apache.calcite.tools.FrameworkConfig;
 import org.apache.calcite.tools.Frameworks;
 import org.apache.calcite.tools.Programs;
+import org.apache.calcite.tools.RuleSets;
 
 import java.util.List;
 
@@ -27,8 +22,12 @@ public class CalciteFramework {
 
         return Frameworks.newConfigBuilder()
                 .parserConfig(CalciteSqlParser.createMySqlConfig())
-                //.ruleSets(CalciteRulesSets.getDefault())
                 .defaultSchema(schema)
+                .typeSystem(CalciteRelDataType.getDefaultSystem())
+                .costFactory(null)
+                .ruleSets(RuleSets.ofList())
+                .traitDefs(CalciteRelTrait.getRelTraits())
+                .context(Contexts.EMPTY_CONTEXT) // Context provides a way to store data within the planner session that can be accessed in planner rules.
                 .build();
 
     }

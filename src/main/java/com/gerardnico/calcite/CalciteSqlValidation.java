@@ -58,7 +58,7 @@ public class CalciteSqlValidation {
 
         sqlValidator.setEnableTypeCoercion(true);
 
-        final CalciteConnectionConfig calciteConnectionConfig = CalciteConnectionStatic.getContext().unwrap(CalciteConnectionConfig.class);
+        final CalciteConnectionConfig calciteConnectionConfig = CalciteConnections.getContext().unwrap(CalciteConnectionConfig.class);
         if (calciteConnectionConfig != null) {
             sqlValidator.setDefaultNullCollation(calciteConnectionConfig.defaultNullCollation());
         }

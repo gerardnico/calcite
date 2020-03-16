@@ -5,6 +5,7 @@ import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.plan.Contexts;
 import org.apache.calcite.plan.RelTraitDef;
+import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.tools.FrameworkConfig;
@@ -12,6 +13,7 @@ import org.apache.calcite.tools.Frameworks;
 import org.apache.calcite.tools.Programs;
 import org.apache.calcite.tools.RuleSets;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -39,10 +41,24 @@ public class CalciteFramework {
     }
 
     /**
+     * Get a default config from a data store
+     * @param dataStore
+     * @return
+     */
+    public static FrameworkConfig getNewConfig(DataSource dataStore){
+        SchemaPlus schemaPlus = CalciteSchema.getCurrentSchema(dataStore);
+        return Frameworks.newConfigBuilder()
+                .defaultSchema(schemaPlus)
+                .parserConfig(CalciteSqlParser.getDefault())
+                .build();
+    }
+
+
+    /**
      * Creates a config based on the SCOTT schema, with tables EMP and DEPT.
      * @return
      */
-    public static FrameworkConfig configScottShemaBased() {
+    public static FrameworkConfig configScottSchemaBased() {
         return Frameworks.newConfigBuilder()
                 .parserConfig(SqlParser.Config.DEFAULT)
                 .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.SCOTT_WITH_TEMPORAL))
@@ -63,4 +79,16 @@ public class CalciteFramework {
                 .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2))
                 .build();
     }
+
+    /**
+     * A config based on the HR schema
+     * @return
+     */
+    public static FrameworkConfig configHrSchemaBased() {
+        return Frameworks.newConfigBuilder()
+                .parserConfig(SqlParser.Config.DEFAULT)
+                .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.HR))
+                .build();
+    }
+
 }

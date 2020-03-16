@@ -4,12 +4,15 @@ import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.RelRoot;
+import org.apache.calcite.rel.RelWriter;
+import org.apache.calcite.rel.externalize.RelWriterImpl;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.SqlDialect;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.tools.*;
 
 import javax.sql.DataSource;
+import java.io.PrintWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,7 +23,7 @@ public class CalciteRel {
      * @return a {@link RelBuilder} with a schema mapped to the SCOTT database, with tables EMP and DEPT.
      */
     public static RelBuilder createHrScottBasedRelBuilder() {
-        final FrameworkConfig config = CalciteFramework.configScottShemaBased();
+        final FrameworkConfig config = CalciteFramework.configScottSchemaBased();
         return RelBuilder.create(config);
     }
 
@@ -42,12 +45,22 @@ public class CalciteRel {
     }
 
     /**
-     * Print a relational expression
+     * Print a relational expression (ie sane as {@link #explain(RelNode)}
      *
      * @param relNode
      */
     public static void print(RelNode relNode) {
         System.out.println(toString(relNode));
+    }
+
+    /**
+     *
+     * Explain is just a {@link #print(RelNode)}
+     * @param relNode
+     */
+    public static void explain(RelNode relNode) {
+        RelWriter rw = new RelWriterImpl(new PrintWriter(System.out, true));
+        relNode.explain(rw);
     }
 
     /**
@@ -57,6 +70,8 @@ public class CalciteRel {
     public static String toString(RelNode relNode) {
         return RelOptUtil.toString(relNode);
     }
+
+
 
     /**
      * Execute a relNode and return the result set

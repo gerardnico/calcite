@@ -15,7 +15,7 @@ import java.util.Properties;
 /**
  * Static method on {@link org.apache.calcite.jdbc.CalciteConnection}
  */
-public class CalciteConnectionStatic {
+public class CalciteConnections {
 
     /**
      *

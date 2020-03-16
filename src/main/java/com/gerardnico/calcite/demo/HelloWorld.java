@@ -1,8 +1,8 @@
 package com.gerardnico.calcite.demo;
 
-import com.gerardnico.calcite.CalciteConnectionStatic;
+import com.gerardnico.calcite.CalciteConnections;
 import com.gerardnico.calcite.CalciteJdbc;
-import com.gerardnico.calcite.CalciteSchemaStatic;
+import com.gerardnico.calcite.CalciteSchema;
 import com.gerardnico.calcite.schema.hr.HrSchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
@@ -21,7 +21,7 @@ public class HelloWorld {
 
         // Create the connection
         try (
-                CalciteConnection calciteConnection = CalciteConnectionStatic.getConnectionWithoutModel();
+                CalciteConnection calciteConnection = CalciteConnections.getConnectionWithoutModel();
         ) {
 
             // Calcite - Add the Hr schema to the connection
@@ -50,7 +50,7 @@ public class HelloWorld {
      */
     private static void addHrSchema(CalciteConnection connection) {
 
-        SchemaPlus rootSchema = CalciteSchemaStatic.getRootSchemaFromCalciteConnection(connection);
+        SchemaPlus rootSchema = CalciteSchema.getRootSchemaFromCalciteConnection(connection);
         Schema schema = new ReflectiveSchema(new HrSchema());
         rootSchema.add("hrAndFoodmart", schema);
 

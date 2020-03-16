@@ -35,7 +35,7 @@ public class CalcitePlanner {
 
     static public final RelOptPlanner getMockRelOptPlanner() {
 
-        return new MockRelOptPlanner(CalciteConnectionStatic.getContext());
+        return new MockRelOptPlanner(CalciteConnections.getContext());
 
     }
 

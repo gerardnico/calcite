@@ -15,7 +15,7 @@ public class CalciteFrameworksTest {
 
     @Test
     public void parseValidateAndLogicalPlanTest() throws SqlParseException, RelConversionException, ValidationException {
-        FrameworkConfig config = CalciteFramework.configScottShemaBased();
+        FrameworkConfig config = CalciteFramework.configScottSchemaBased();
         Planner planner = CalcitePlanner.getPlannerFromFrameworkConfig(config);
         SqlNode sqlNode = planner.parse("select count(1) from emp");
         SqlNode sqlNodeValidated = planner.validate(sqlNode);

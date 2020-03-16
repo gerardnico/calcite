@@ -2,22 +2,22 @@ package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.schema.foodmart.FoodmartSchema;
 import com.gerardnico.calcite.schema.hr.HrSchema;
-import com.gerardnico.calcite.schema.queries.HrFoodmartQuery;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.SchemaPlus;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
  * Static schema function
  */
-public class CalciteSchemaStatic {
+public class CalciteSchema {
 
     /**
      *
-     * @param calciteConnection - A {@link CalciteConnection} that you can get in {@link CalciteConnectionStatic}
+     * @param calciteConnection - A {@link CalciteConnection} that you can get in {@link CalciteConnections}
      * @return
      */
     static SchemaPlus getCurrentSchema(CalciteConnection calciteConnection){
@@ -30,11 +30,21 @@ public class CalciteSchemaStatic {
         }
     }
 
+    /**
+     *
+     * @param dataSource
+     * @return the current schema of a data source
+     */
+    static SchemaPlus getCurrentSchema(DataSource dataSource){
+
+        return CalciteJdbc.getSchema(dataSource);
+    }
+
     public static SchemaPlus getRootSchemaFromCalciteConnection(CalciteConnection calciteConnection) {
         return calciteConnection.getRootSchema();
     }
 
-    public static SchemaPlus getRooSchemaFromSqlConnection(Connection connection) {
+    public static SchemaPlus getRootSchemaFromSqlConnection(Connection connection) {
         try {
             CalciteConnection calciteConnection = connection.unwrap(CalciteConnection.class);
             return calciteConnection.getRootSchema();
@@ -45,7 +55,7 @@ public class CalciteSchemaStatic {
 
     /**
      * Add the HR and Foodmart Schema
-     * @param calciteConnection - a calcite connection (Example {@link CalciteConnectionStatic#getConnectionWithoutModel()}
+     * @param calciteConnection - a calcite connection (Example {@link CalciteConnections#getConnectionWithoutModel()}
      * @return - the same connection
      */
     public static void addReflectiveSchemaToConnection(CalciteConnection calciteConnection) {
@@ -58,6 +68,6 @@ public class CalciteSchemaStatic {
 
 
     public static CalciteConnection addReflectiveSchemaToConnectionViaModel() {
-        return CalciteConnectionStatic.getConnectionWithModel("src/main/resources/hrAndFoodmart/hrAndFoodmart.json");
+        return CalciteConnections.getConnectionWithModel("src/main/resources/hrAndFoodmart/hrAndFoodmart.json");
     }
 }

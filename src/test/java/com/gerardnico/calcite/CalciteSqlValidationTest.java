@@ -26,7 +26,7 @@ public class CalciteSqlValidationTest {
 
     @Test
     public void validateFromPlanner() throws ValidationException {
-        FrameworkConfig config = CalciteFramework.configScottShemaBased();
+        FrameworkConfig config = CalciteFramework.configScottSchemaBased();
         Planner planner = CalcitePlanner.getPlannerFromFrameworkConfig(config);
         final String sql = "select * from EMP";
         SqlNode sqlNode = null;

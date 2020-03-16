@@ -16,12 +16,27 @@ import org.apache.calcite.tools.ValidationException;
 public class CalciteSqlValidation {
 
 
-    static void validateFromPlanner(Planner planner, SqlNode sqlNode) throws ValidationException {
-        planner.validate(sqlNode);
+    /**
+     *
+     * @param planner
+     * @param sqlNode
+     * @return the validated node
+     */
+    static SqlNode validateFromPlanner(Planner planner, SqlNode sqlNode) {
+        try {
+            return planner.validate(sqlNode);
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    static void validateFromCustomValidator(SqlNode sqlNode)  {
-        createCustomSqlValidator().validate(sqlNode);
+    /**
+     *
+     * @param sqlNode
+     * @return the validated node
+     */
+    static SqlNode validateFromCustomValidator(SqlNode sqlNode)  {
+        return createCustomSqlValidator().validate(sqlNode);
     }
 
     /**

@@ -14,6 +14,7 @@ import org.apache.calcite.sql2rel.SqlToRelConverter;
 import org.apache.calcite.sql2rel.StandardConvertletTable;
 import org.apache.calcite.tools.FrameworkConfig;
 import org.apache.calcite.tools.Planner;
+import org.apache.calcite.tools.RelConversionException;
 import org.apache.calcite.tools.ValidationException;
 
 import static com.gerardnico.calcite.CalcitePlanner.getMockRelOptPlanner;
@@ -22,19 +23,19 @@ public class CalciteSqlNode {
 
     /**
      * Validate the SQl Node against the schema with a planner object
-     * @return a validated sql node with a SqlValidator
-     * To get a planner, see {@link CalcitePlanner#getPlannerFromFrameworkConfig(FrameworkConfig)}
+     *
+     * @return the validated node
      */
-    public static void validate(Planner planner, SqlNode sqlNode) throws ValidationException {
-        CalciteSqlValidation.validateFromPlanner(planner, sqlNode);
+    public static SqlNode validate(Planner planner, SqlNode sqlNode) throws ValidationException {
+        return CalciteSqlValidation.validateFromPlanner(planner, sqlNode);
     }
 
     /**
-     * From SqlToRel
+     * From SqlToRelRoot
      *
      * @return
      */
-    public static RelRoot fromSqlNodeToRelNode(SqlNode sqlNode) {
+    public static RelRoot fromSqlNodeToRelRoot(SqlNode sqlNode) {
 
         final CalciteSqlValidatorCustom sqlValidator = CalciteSqlValidation.createCustomSqlValidator();
 
@@ -76,11 +77,24 @@ public class CalciteSqlNode {
     }
 
     /**
+     * From SqlToRelRoot
      *
+     * @param planner - A planner utility. See {@link CalcitePlanner#getPlannerFromFrameworkConfig(FrameworkConfig)}
+     * @return a relRoot
+     */
+    public static RelRoot fromSqlNodeToRelRootViaPlanner(Planner planner, SqlNode sqlNode) {
+        try {
+            return planner.rel(sqlNode);
+        } catch (RelConversionException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * @param sql
      * @return a SqlNode from a Sql
      */
-    public static SqlNode fromSqlToSqlNode(String sql){
+    public static SqlNode fromSqlToSqlNode(String sql) {
         return CalciteSql.fromSqlToSqlNode(sql);
     }
 }

@@ -2,8 +2,8 @@ package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.plan.RelOptUtil;
-import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
+import org.apache.calcite.rel.RelRoot;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.SqlDialect;
 import org.apache.calcite.sql.parser.SqlParser;
@@ -13,7 +13,6 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class CalciteRel {
 
@@ -105,5 +104,14 @@ public class CalciteRel {
     public static RelBuilder createOrderEntryBasedRelBuilder() {
         final FrameworkConfig config = CalciteFramework.configOrderEntrySchemaBased();
         return RelBuilder.create(config);
+    }
+
+    /**
+     *
+     * @param relRoot
+     * @return a logical plan
+     */
+    public static RelNode getLogicalPlan(RelRoot relRoot){
+        return relRoot.project();
     }
 }

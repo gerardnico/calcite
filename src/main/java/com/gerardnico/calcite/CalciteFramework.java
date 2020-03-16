@@ -5,7 +5,6 @@ import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.plan.Contexts;
 import org.apache.calcite.plan.RelTraitDef;
-import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.tools.FrameworkConfig;
@@ -15,6 +14,9 @@ import org.apache.calcite.tools.RuleSets;
 
 import java.util.List;
 
+/**
+ * {@link Frameworks Frameworks} is the second entry point of calcite after JDBC
+ */
 public class CalciteFramework {
 
 
@@ -30,6 +32,10 @@ public class CalciteFramework {
                 .context(Contexts.EMPTY_CONTEXT) // Context provides a way to store data within the planner session that can be accessed in planner rules.
                 .build();
 
+    }
+
+    public static FrameworkConfig getDefaultConfig(){
+        return Frameworks.newConfigBuilder().build();
     }
 
     /**

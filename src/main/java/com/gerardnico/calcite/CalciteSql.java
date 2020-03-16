@@ -9,14 +9,6 @@ import org.apache.calcite.sql.dialect.*;
 import org.apache.calcite.sql.parser.SqlParseException;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.sql.pretty.SqlPrettyWriter;
-import org.apache.calcite.sql2rel.SqlToRelConverter;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.apache.calcite.prepare.Prepare.THREAD_EXPAND;
 
 public class CalciteSql {
 
@@ -76,7 +68,7 @@ public class CalciteSql {
     public static RelRoot fromSqlToRelNode(String sql) {
 
         SqlNode sqlNode = fromSqlToSqlNode(sql);
-        return CalciteSqlNode.fromSqlNodeToRelNode(sqlNode);
+        return CalciteSqlNode.fromSqlNodeToRelRoot(sqlNode);
 
     }
 

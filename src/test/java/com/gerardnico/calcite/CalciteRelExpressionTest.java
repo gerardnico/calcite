@@ -15,11 +15,7 @@ public class CalciteRelExpressionTest {
     }
 
     /**
-     * Print a sequence of 1 to 10
-     * <p>
-     * <p>
-     * <p>
-     * https://calcite.apache.org/docs/algebra.html#push-and-pop
+     * Example modified of <a href="https://calcite.apache.org/docs/algebra.html#push-and-pop">Push and pop</a>
      */
     @Test
     public void pushAndPopBushyJoinTest() {
@@ -27,8 +23,15 @@ public class CalciteRelExpressionTest {
         final RelNode left = builder
                 .scan("CUSTOMERS")
                 .scan("ORDERS")
-                    .join(JoinRelType.INNER, "ORDER_ID")
+                    .join(JoinRelType.INNER, "CUSTOMER_ID")
                 .build();
+
+        System.out.println("Print the Customers/Orders SQL");
+        String sql = CalciteRel.fromRelNodeToSql(left, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+        System.out.println(sql);
+
+        System.out.println("Execute the relational expression");
+        CalciteRel.executeAndPrint(left);
 
         final RelNode right = builder
                 .scan("ORDER_ITEMS")
@@ -36,6 +39,14 @@ public class CalciteRelExpressionTest {
                 .join(JoinRelType.INNER, "PRODUCT_ID")
                 .build();
 
+        System.out.println("Print the OrderItems/PRODUCTS SQL");
+        sql = CalciteRel.fromRelNodeToSql(right, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+        System.out.println(sql);
+
+        System.out.println("Execute the relational expression");
+        CalciteRel.executeAndPrint(right);
+
+        System.out.println("bushy join");
         final RelNode relNode = builder
                 .push(left)
                 .push(right)
@@ -46,7 +57,7 @@ public class CalciteRelExpressionTest {
         System.out.println();
 
         System.out.println("Print the SQL");
-        String sql = CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+        sql = CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
         System.out.println(sql);
 
         System.out.println("Execute the relational expression");

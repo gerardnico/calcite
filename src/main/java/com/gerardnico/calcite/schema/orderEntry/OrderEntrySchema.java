@@ -31,13 +31,13 @@ public final class OrderEntrySchema {
     };
 
     public final OrderItems[] ORDER_ITEMS = {
-            new OrderItems(1,2),
-            new OrderItems(2,1)
+            new OrderItems(1, 2),
+            new OrderItems(2, 1)
     };
 
     public final Orders[] ORDERS = {
-            new Orders(1),
-            new Orders(2)
+            new Orders(1, 1),
+            new Orders(2, 1)
     };
 
     public final Products[] PRODUCTS = {
@@ -63,10 +63,12 @@ public final class OrderEntrySchema {
      */
     public static class Orders {
         public final int ORDER_ID;
+        public final int CUSTOMER_ID;
 
 
-        public Orders(int orderId) {
+        public Orders(int orderId, int customerId) {
             ORDER_ID = orderId;
+            CUSTOMER_ID = customerId;
         }
     }
 
@@ -75,7 +77,6 @@ public final class OrderEntrySchema {
      */
     public static class Customers {
         public final int CUSTOMER_ID;
-        public int ORDER_ID;
 
 
         public Customers(int customerId) {

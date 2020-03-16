@@ -33,7 +33,7 @@ import java.util.function.Supplier;
  *
  * <p>Not thread-safe.
  */
-public class MockCatalogReaderDynamic extends MockCatalogReader {
+public class MockCatalogReaderDynamic extends MockJdbcCatalogReader {
   /**
    * Creates a MockCatalogReader.
    *
@@ -47,7 +47,7 @@ public class MockCatalogReaderDynamic extends MockCatalogReader {
     super(typeFactory, caseSensitive);
   }
 
-  @Override public MockCatalogReader init() {
+  @Override public MockJdbcCatalogReader init() {
     // Register "DYNAMIC" schema.
     MockSchema schema = new MockSchema("SALES");
     registerSchema(schema);

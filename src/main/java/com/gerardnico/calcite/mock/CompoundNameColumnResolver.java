@@ -24,7 +24,7 @@ import java.util.*;
 
 /** ColumnResolver implementation that resolves CompoundNameColumn by simulating
  *  Phoenix behaviors. */
-final class CompoundNameColumnResolver implements MockCatalogReader.ColumnResolver {
+final class CompoundNameColumnResolver implements MockJdbcCatalogReader.ColumnResolver {
   private final Map<String, Integer> nameMap = new HashMap<>();
   private final Map<String, Map<String, Integer>> groupMap = new HashMap<>();
   private final String defaultColumnGroup;

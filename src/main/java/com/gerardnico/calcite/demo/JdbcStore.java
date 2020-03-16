@@ -3,6 +3,7 @@ package com.gerardnico.calcite.demo;
 import com.gerardnico.calcite.CalciteJdbc;
 import com.gerardnico.calcite.CalciteRel;
 import com.gerardnico.calcite.CalciteSql;
+import com.gerardnico.calcite.CalciteSqlDialect;
 import org.apache.calcite.adapter.jdbc.JdbcSchema;
 import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
@@ -102,7 +103,7 @@ public class JdbcStore {
      * @return the dialect for this connection
      */
     public SqlDialect getDialect() {
-        return CalciteSql.getDialect(getConnection());
+        return CalciteSqlDialect.getDialectFromSqlConnection(getConnection());
     }
 
 

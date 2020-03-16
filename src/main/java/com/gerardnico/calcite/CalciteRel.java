@@ -4,7 +4,6 @@ import com.gerardnico.calcite.demo.JdbcStore;
 import org.apache.calcite.plan.RelOptUtil;
 import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.rel.RelNode;
-import org.apache.calcite.rel.RelRoot;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.SqlDialect;
 import org.apache.calcite.sql.parser.SqlParser;
@@ -26,8 +25,10 @@ public class CalciteRel {
         return RelBuilder.create(config);
     }
 
+
     /**
      * Create a RelBuilder based on the JDBC data source
+     *
      * @param dataSource
      * @return
      */
@@ -44,6 +45,7 @@ public class CalciteRel {
 
     /**
      * Print a relational expression
+     *
      * @param relNode
      */
     public static void print(RelNode relNode) {
@@ -51,7 +53,6 @@ public class CalciteRel {
     }
 
     /**
-     *
      * @param relNode
      * @return the string representation of a relNode
      */
@@ -102,4 +103,8 @@ public class CalciteRel {
     }
 
 
+    public static RelBuilder createOrderEntryBasedRelBuilder() {
+        final FrameworkConfig config = CalciteFramework.configOrderEntrySchemaBased();
+        return RelBuilder.create(config);
+    }
 }

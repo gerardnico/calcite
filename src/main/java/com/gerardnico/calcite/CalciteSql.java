@@ -86,7 +86,7 @@ public class CalciteSql {
      * you can transform it into sql
      *
      * @param relNode
-     * @param sqlDialect - A sql dialect (one of {@link #getDialects()})
+     * @param sqlDialect - A sql dialect (one of {@link CalciteSqlDialect#getDialect(CalciteSqlDialect.DIALECT)})
      * @return the sql representation of the relNode
      */
     static public String fromRelNodeToSql(RelNode relNode, SqlDialect sqlDialect) {
@@ -105,30 +105,7 @@ public class CalciteSql {
         return fromRelNodeToSql(relNode, dialect);
     }
 
-    /**
-     * Get dialects as demo
-     * All dialects are at {@link org.apache.calcite.sql.dialect}
-     */
-    static public List<SqlDialect> getDialects() {
-        List<SqlDialect> sqlDialects = new ArrayList<>();
-        sqlDialects.add(AnsiSqlDialect.DEFAULT);
-        sqlDialects.add(SnowflakeSqlDialect.DEFAULT);
-        sqlDialects.add(AccessSqlDialect.DEFAULT);
-        sqlDialects.add(BigQuerySqlDialect.DEFAULT);
-        sqlDialects.add(CalciteSqlDialect.DEFAULT);
-        sqlDialects.add(DerbySqlDialect.DEFAULT);
-        return sqlDialects;
-    }
 
-    /**
-     * Get a dialect from a JDBC connection
-     */
-    static public SqlDialect getDialect(Connection connection) {
-        try {
-            return SqlDialectFactoryImpl.INSTANCE.create(connection.getMetaData());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }
 

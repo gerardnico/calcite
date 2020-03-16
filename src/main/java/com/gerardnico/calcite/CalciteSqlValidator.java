@@ -1,6 +1,6 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.mock.MockCatalogReader;
+import com.gerardnico.calcite.mock.MockJdbcCatalogReader;
 import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
 import com.gerardnico.calcite.mock.MockSqlOperatorTable;
 import org.apache.calcite.config.CalciteConnectionConfig;
@@ -44,7 +44,7 @@ public class CalciteSqlValidator extends SqlValidatorImpl {
     static public CalciteSqlValidator createSqlValidator() {
 
         RelDataTypeFactory typeFactory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
-        MockCatalogReader catalogReader = new MockCatalogReaderSimple(typeFactory, true).init();
+        MockJdbcCatalogReader catalogReader = new MockCatalogReaderSimple(typeFactory, true).init();
         MockSqlOperatorTable sqlOperatorTable = new MockSqlOperatorTable(SqlStdOperatorTable.instance());
         MockSqlOperatorTable.addRamp(sqlOperatorTable);
 

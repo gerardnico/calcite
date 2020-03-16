@@ -42,7 +42,7 @@ public class MockCatalogReaderExtended extends MockCatalogReaderSimple {
     super(typeFactory, caseSensitive);
   }
 
-  @Override public MockCatalogReader init() {
+  @Override public MockJdbcCatalogReader init() {
     super.init();
 
     MockSchema salesSchema = new MockSchema("SALES");

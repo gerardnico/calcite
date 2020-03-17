@@ -15,6 +15,7 @@ import java.sql.Date;
 
 public class StreamableTableOrderDetails implements StreamableTable {
 
+    @Override
     public RelDataType getRowType(RelDataTypeFactory typeFactory) {
         return new RelDataTypeFactory.Builder(typeFactory)
                 .add("CK_TIME", typeFactory.createJavaType(Date.class))
@@ -25,6 +26,7 @@ public class StreamableTableOrderDetails implements StreamableTable {
                 .build();
     }
 
+    @Override
     public Statistic getStatistic() {
         RelFieldCollation.Direction dir = RelFieldCollation.Direction.ASCENDING;
         RelFieldCollation collation = new RelFieldCollation(0, dir, RelFieldCollation.NullDirection.UNSPECIFIED);
@@ -32,6 +34,7 @@ public class StreamableTableOrderDetails implements StreamableTable {
                 ImmutableList.of(RelCollations.of(collation)));
     }
 
+    @Override
     public Schema.TableType getJdbcTableType() {
         return Schema.TableType.STREAM;
     }

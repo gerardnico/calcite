@@ -38,7 +38,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Simple catalog reader for testing.
+ * Simple catalog reader for testing built in the {@link #init()} function.
+ * There is 4 schema.
+ *
  */
 public class MockCatalogReaderSimple extends MockJdbcCatalogReader {
     private final Fixture fixture;

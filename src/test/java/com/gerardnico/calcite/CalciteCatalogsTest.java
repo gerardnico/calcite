@@ -1,10 +1,5 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.mock.MockJdbcCatalogReader;
-import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
-import org.apache.calcite.rel.type.RelDataTypeFactory;
-import org.apache.calcite.rel.type.RelDataTypeSystem;
-import org.apache.calcite.sql.type.SqlTypeFactoryImpl;
 import org.junit.Test;
 
 /**
@@ -15,14 +10,12 @@ public class CalciteCatalogsTest {
 
 
     /**
-     * Show how to read a catalog
+     * Show how to read and print catalog
      */
     @Test
     public void catalogReaderTest() {
 
-        RelDataTypeFactory typeFactory = new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
-        MockJdbcCatalogReader catalogReader = new MockCatalogReaderSimple(typeFactory, true).init();
-        CalciteCatalogs.print(catalogReader);
+        CalciteCatalogs.printMock();
 
     }
 }

@@ -25,10 +25,24 @@ public class CalciteSql {
     }
 
     /**
-     * @param sql - A query
+     * @param sql - A sql statement (query, insert, ...)
      * @return - the tree
      */
     public static SqlNode fromSqlToSqlNode(String sql) {
+        try {
+            SqlParser parser = CalciteSqlParser.create(sql);
+            return parser.parseStmt();
+        } catch (SqlParseException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * @param sql - A sql query statement
+     * @return - the tree
+     */
+    public static SqlNode fromSqlQueryToSqlNode(String sql) {
         try {
             SqlParser parser = CalciteSqlParser.create(sql);
             return parser.parseQuery();

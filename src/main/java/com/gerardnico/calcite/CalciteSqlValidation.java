@@ -4,12 +4,14 @@ import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
 import com.gerardnico.calcite.mock.MockJdbcCatalogReader;
 import com.gerardnico.calcite.mock.MockSqlOperatorTable;
 import org.apache.calcite.config.CalciteConnectionConfig;
+import org.apache.calcite.prepare.Prepare;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
+import org.apache.calcite.rel.type.RelDataTypeFactoryImpl;
 import org.apache.calcite.rel.type.RelDataTypeSystem;
 import org.apache.calcite.sql.SqlNode;
 import org.apache.calcite.sql.fun.SqlStdOperatorTable;
 import org.apache.calcite.sql.type.SqlTypeFactoryImpl;
-import org.apache.calcite.sql.validate.SqlConformanceEnum;
+import org.apache.calcite.sql.validate.*;
 import org.apache.calcite.tools.Planner;
 import org.apache.calcite.tools.ValidationException;
 
@@ -64,5 +66,26 @@ public class CalciteSqlValidation {
         }
 
         return sqlValidator;
+    }
+
+    /**
+     * Build a validator with:
+     *   * the {@link MockCatalogReaderSimple}
+     *   * a {@link SqlConformanceEnum#DEFAULT}
+     *   * and
+     * @param sqlNode
+     * @return the validated node
+     */
+    static SqlNode validateFromUtilValidatorPlanner(Prepare.CatalogReader catalogReader, SqlNode sqlNode) {
+
+        SqlStdOperatorTable operatorTable = SqlStdOperatorTable.instance();
+        SqlValidatorWithHints sqlValidator = SqlValidatorUtil.newValidator(
+                operatorTable,
+                catalogReader,
+                catalogReader.getTypeFactory(),
+                SqlConformanceEnum.DEFAULT
+        );
+        return sqlValidator.validate(sqlNode);
+
     }
 }

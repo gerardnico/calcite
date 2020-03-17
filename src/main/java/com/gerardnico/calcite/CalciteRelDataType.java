@@ -3,6 +3,7 @@ package com.gerardnico.calcite;
 import org.apache.calcite.rel.type.RelDataType;
 import org.apache.calcite.rel.type.RelDataTypeFactory;
 import org.apache.calcite.rel.type.RelDataTypeSystem;
+import org.apache.calcite.sql.type.SqlTypeFactoryImpl;
 
 import java.sql.Date;
 
@@ -26,5 +27,13 @@ public class CalciteRelDataType {
                 .add("BUYER_NAME", typeFactory.createJavaType(String.class))
                 .add("QUANTITY", typeFactory.createJavaType(Integer.class))
                 .build();
+    }
+
+    /**
+     * Sql Type factory
+     * @return
+     */
+    public static RelDataTypeFactory createSqlTypeFactory() {
+        return new SqlTypeFactoryImpl(RelDataTypeSystem.DEFAULT);
     }
 }

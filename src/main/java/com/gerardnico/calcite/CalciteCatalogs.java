@@ -1,6 +1,8 @@
 package com.gerardnico.calcite;
 
+import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
 import org.apache.calcite.prepare.Prepare;
+import org.apache.calcite.rel.type.RelDataTypeFactory;
 
 /**
  * Static info on catalog
@@ -26,4 +28,19 @@ public class CalciteCatalogs {
                 });
     }
 
+    /**
+     *
+     * @return a mock catalog with a list of schema:
+     *   * order entry
+     *   * hr
+     *  To see the schema, you can {@link #printMock() print it}
+     */
+    public static Prepare.CatalogReader createMock() {
+        RelDataTypeFactory sqlTypeFactory = CalciteRelDataType.createSqlTypeFactory();
+        return new MockCatalogReaderSimple(sqlTypeFactory, true).init();
+    }
+
+    public static void printMock() {
+        print(createMock());
+    }
 }

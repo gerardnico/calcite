@@ -57,4 +57,14 @@ public class CalciteSqlParser {
 
         return SqlParser.create(sql, config);
     }
+
+    /**
+     *
+     * @return a parser config with case-insensivity
+     */
+    public static SqlParser.Config getInsensitiveConfig() {
+        return SqlParser.configBuilder()
+                .setCaseSensitive(false)
+                .build();
+    }
 }

@@ -3,6 +3,7 @@ package com.gerardnico.calcite;
 import org.apache.calcite.runtime.CalciteContextException;
 import org.apache.calcite.sql.SqlNode;
 import org.apache.calcite.sql.SqlWriterConfig;
+import org.apache.calcite.sql.pretty.SqlPrettyWriter;
 import org.junit.Test;
 
 /**
@@ -29,19 +30,16 @@ public class CalciteSqlWriterTest {
                 + "    and interval '1' day following)) "
                 + "order by gg desc nulls last, hh asc";
         SqlNode sqlNode = CalciteSql.fromSqlToSqlNode(sql);
-        CalciteSqlWriter.fromSqlNode(sqlNode)
-                .withWriterConfig(c -> c
-                        .withLineFolding(SqlWriterConfig.LineFolding.STEP)
-                        .withSelectFolding(SqlWriterConfig.LineFolding.TALL)
-                        .withFromFolding(SqlWriterConfig.LineFolding.TALL)
-                        .withWhereFolding(SqlWriterConfig.LineFolding.TALL)
-                        .withHavingFolding(SqlWriterConfig.LineFolding.TALL)
-                        .withIndentation(4)
-                        .withClauseEndsLine(true))
-                .print();
+        SqlWriterConfig config = SqlPrettyWriter.config()
+                .withLineFolding(SqlWriterConfig.LineFolding.STEP)
+                .withSelectFolding(SqlWriterConfig.LineFolding.TALL)
+                .withFromFolding(SqlWriterConfig.LineFolding.TALL)
+                .withWhereFolding(SqlWriterConfig.LineFolding.TALL)
+                .withHavingFolding(SqlWriterConfig.LineFolding.TALL)
+                .withIndentation(4)
+                .withClauseEndsLine(true);
+        CalciteSql.print(sqlNode,config);
     }
-
-
 
 
 }

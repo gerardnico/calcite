@@ -6,7 +6,6 @@ import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.plan.Contexts;
 import org.apache.calcite.plan.RelTraitDef;
-import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.tools.FrameworkConfig;
@@ -61,10 +60,7 @@ public class CalciteFramework {
      */
     public static FrameworkConfig configScottSchemaBased() {
         return Frameworks.newConfigBuilder()
-                .parserConfig(SqlParser.Config.DEFAULT)
                 .defaultSchema(SchemaBuilder.getSchema(SchemaBuilder.SchemaSpec.SCOTT_WITH_TEMPORAL))
-                .traitDefs((List<RelTraitDef>) null)
-                .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2))
                 .build();
     }
 
@@ -73,7 +69,10 @@ public class CalciteFramework {
         ReflectiveSchema schema = new ReflectiveSchema(new OrderEntrySchema());
         SchemaPlus orderEntry = rootSchema.add("OE", schema);
         return Frameworks.newConfigBuilder()
-                .parserConfig(SqlParser.Config.DEFAULT)
+                .parserConfig(
+                        SqlParser.configBuilder()
+                        .setCaseSensitive(false)
+                        .build())
                 .defaultSchema(orderEntry)
                 .traitDefs((List<RelTraitDef>) null)
                 .programs(Programs.heuristicJoinOrder(Programs.RULE_SET, true, 2))
@@ -88,8 +87,9 @@ public class CalciteFramework {
         SchemaPlus rootSchema = Frameworks.createRootSchema(true);
         ReflectiveSchema schema = new ReflectiveSchema(new HrSchema());
         SchemaPlus hr = rootSchema.add("HR", schema);
+
         return Frameworks.newConfigBuilder()
-                .parserConfig(SqlParser.Config.DEFAULT)
+                .parserConfig(CalciteSqlParser.getInsensitiveConfig())
                 .defaultSchema(hr)
                 .build();
     }

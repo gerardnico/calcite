@@ -99,5 +99,19 @@ public class CalciteSql {
 
 
 
+    /**
+     * Print the tree
+     */
+    public static void print(SqlNode sqlNode) {
+        SqlWriterConfig config = SqlPrettyWriter.config();
+        print(sqlNode,config);
+    }
+
+    /**
+     * Print the tree
+     */
+    public static void print(SqlNode sqlNode, SqlWriterConfig config) {
+        System.out.println(new SqlPrettyWriter(config).format(sqlNode));
+    }
 }
 

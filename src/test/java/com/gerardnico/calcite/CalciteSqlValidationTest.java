@@ -1,7 +1,5 @@
 package com.gerardnico.calcite;
 
-import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
-import com.gerardnico.calcite.mock.MockJdbcCatalogReader;
 import org.apache.calcite.prepare.Prepare;
 import org.apache.calcite.runtime.CalciteContextException;
 import org.apache.calcite.sql.SqlNode;

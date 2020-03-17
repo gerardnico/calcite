@@ -2,16 +2,14 @@ package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.schema.SchemaBuilder;
 import com.gerardnico.calcite.schema.hr.HrSchema;
+import com.gerardnico.calcite.schema.hr.HrSchemaMin;
 import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.plan.Contexts;
 import org.apache.calcite.plan.RelTraitDef;
 import org.apache.calcite.schema.SchemaPlus;
 import org.apache.calcite.sql.parser.SqlParser;
-import org.apache.calcite.tools.FrameworkConfig;
-import org.apache.calcite.tools.Frameworks;
-import org.apache.calcite.tools.Programs;
-import org.apache.calcite.tools.RuleSets;
+import org.apache.calcite.tools.*;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -92,6 +90,31 @@ public class CalciteFramework {
                 .parserConfig(CalciteSqlParser.getInsensitiveConfig())
                 .defaultSchema(hr)
                 .build();
+    }
+
+    /**
+     *
+     * @return a planner based on the {@link HrSchema}
+     */
+    public static Planner getPlannerHrSchemaBased(){
+        // Build the schema
+        SchemaPlus rootSchema = Frameworks.createRootSchema(true);
+        ReflectiveSchema schema = new ReflectiveSchema(new HrSchema());
+        SchemaPlus hr = rootSchema.add("HR", schema);
+
+        // Get a non-sensitive parser
+        SqlParser.Config insensitiveParser = SqlParser.configBuilder()
+                .setCaseSensitive(false)
+                .build();
+
+        // Build a global configuration object
+        FrameworkConfig config = Frameworks.newConfigBuilder()
+                .parserConfig(insensitiveParser)
+                .defaultSchema(hr)
+                .build();
+
+        // Get the planner tool
+        return Frameworks.getPlanner(config);
     }
 
 }

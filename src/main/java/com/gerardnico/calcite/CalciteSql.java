@@ -1,14 +1,23 @@
 package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.demo.JdbcStore;
+import com.gerardnico.calcite.mock.MockCatalogReaderSimple;
+import com.gerardnico.calcite.mock.MockViewExpander;
+import org.apache.calcite.plan.RelOptCluster;
+import org.apache.calcite.plan.volcano.VolcanoPlanner;
+import org.apache.calcite.prepare.PlannerImpl;
 import org.apache.calcite.rel.RelNode;
 import org.apache.calcite.rel.RelRoot;
 import org.apache.calcite.rel.rel2sql.RelToSqlConverter;
+import org.apache.calcite.rel.type.RelDataTypeFactory;
+import org.apache.calcite.rex.RexBuilder;
 import org.apache.calcite.sql.*;
 import org.apache.calcite.sql.dialect.*;
 import org.apache.calcite.sql.parser.SqlParseException;
 import org.apache.calcite.sql.parser.SqlParser;
 import org.apache.calcite.sql.pretty.SqlPrettyWriter;
+import org.apache.calcite.sql2rel.SqlToRelConverter;
+import org.apache.calcite.tools.Planner;
 
 public class CalciteSql {
 
@@ -85,6 +94,8 @@ public class CalciteSql {
         return CalciteSqlNode.fromSqlNodeToRelRoot(sqlNode);
 
     }
+
+
 
 
     /**

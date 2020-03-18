@@ -2,7 +2,6 @@ package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.schema.SchemaBuilder;
 import com.gerardnico.calcite.schema.hr.HrSchema;
-import com.gerardnico.calcite.schema.hr.HrSchemaMin;
 import com.gerardnico.calcite.schema.orderEntry.OrderEntrySchema;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.plan.Contexts;
@@ -44,7 +43,7 @@ public class CalciteFramework {
      * @return
      */
     public static FrameworkConfig getNewConfig(DataSource dataStore){
-        SchemaPlus schemaPlus = CalciteSchema.getCurrentSchema(dataStore);
+        SchemaPlus schemaPlus = CalciteSchemaStatic.getCurrentSchema(dataStore);
         return Frameworks.newConfigBuilder()
                 .defaultSchema(schemaPlus)
                 .parserConfig(CalciteSqlParser.getDefault())

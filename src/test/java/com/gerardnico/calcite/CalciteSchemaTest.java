@@ -17,7 +17,7 @@ public class CalciteSchemaTest {
     public void reflectiveWithCode() {
 
         CalciteConnection calciteConnection = CalciteConnections.getConnectionWithoutModel();
-        CalciteSchema.addReflectiveSchemaToConnection(calciteConnection);
+        CalciteSchemaStatic.addReflectiveSchemaToConnection(calciteConnection);
         HrFoodmartQuery.executeSampleQuery(calciteConnection);
 
     }
@@ -25,7 +25,7 @@ public class CalciteSchemaTest {
     @Test
     public void reflectiveWithModel() {
 
-        CalciteConnection calciteConnection = CalciteSchema.addReflectiveSchemaToConnectionViaModel();
+        CalciteConnection calciteConnection = CalciteSchemaStatic.addReflectiveSchemaToConnectionViaModel();
         HrFoodmartQuery.executeSampleQuery(calciteConnection);
 
     }

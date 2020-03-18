@@ -91,7 +91,11 @@ public class CalciteRel {
      * @return
      */
     public static ResultSet executeQuery(RelNode relNode) {
-        PreparedStatement run = RelRunners.run(relNode);
+        return executeQuery(relNode,null);
+    }
+
+    public static ResultSet executeQuery(RelNode relNode, SchemaPlus defaultSchema) {
+        PreparedStatement run = CalciteRelRunners.run(relNode, defaultSchema);
         try {
             return run.executeQuery();
         } catch (SQLException e) {
@@ -105,11 +109,7 @@ public class CalciteRel {
      * @param relNode
      */
     public static void executeAndPrint(RelNode relNode) {
-        try (ResultSet resultSet = executeQuery(relNode)) {
-            CalciteJdbc.printResultSet(resultSet);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        executeAndPrint(relNode,null);
     }
 
     /**
@@ -139,5 +139,16 @@ public class CalciteRel {
      */
     public static RelNode getLogicalPlan(RelRoot relRoot){
         return relRoot.project();
+    }
+
+    public static void executeAndPrint(RelNode relNode, SchemaPlus defaultSchema) {
+
+            try (ResultSet resultSet = executeQuery(relNode, defaultSchema)) {
+                CalciteJdbc.printResultSet(resultSet);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
     }
 }

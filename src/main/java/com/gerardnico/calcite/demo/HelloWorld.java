@@ -2,14 +2,13 @@ package com.gerardnico.calcite.demo;
 
 import com.gerardnico.calcite.CalciteConnections;
 import com.gerardnico.calcite.CalciteJdbc;
-import com.gerardnico.calcite.CalciteSchema;
+import com.gerardnico.calcite.CalciteSchemaStatic;
 import com.gerardnico.calcite.schema.hr.HrDepartment;
 import com.gerardnico.calcite.schema.hr.HrEmployee;
 import com.gerardnico.calcite.schema.hr.HrSchema;
 import com.google.common.collect.ImmutableList;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
-import org.apache.calcite.schema.Schema;
 import org.apache.calcite.schema.SchemaPlus;
 
 import java.sql.*;
@@ -55,7 +54,7 @@ public class HelloWorld {
      */
     private static void addHrSchema(CalciteConnection connection) {
 
-        SchemaPlus rootSchema = CalciteSchema.getRootSchemaFromCalciteConnection(connection);
+        SchemaPlus rootSchema = CalciteSchemaStatic.getRootSchemaFromCalciteConnection(connection);
         rootSchema.add("hr", new ReflectiveSchema(new HrSchema()));
 
     }

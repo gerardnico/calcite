@@ -2,6 +2,7 @@ package com.gerardnico.calcite;
 
 import com.gerardnico.calcite.schema.foodmart.FoodmartSchema;
 import com.gerardnico.calcite.schema.hr.HrSchema;
+import org.apache.calcite.DataContext;
 import org.apache.calcite.adapter.java.ReflectiveSchema;
 import org.apache.calcite.jdbc.CalciteConnection;
 import org.apache.calcite.schema.SchemaPlus;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 /**
  * Static schema function
  */
-public class CalciteSchema {
+public class CalciteSchemaStatic {
 
     /**
      *
@@ -69,5 +70,13 @@ public class CalciteSchema {
 
     public static CalciteConnection addReflectiveSchemaToConnectionViaModel() {
         return CalciteConnections.getConnectionWithModel("src/main/resources/hrAndFoodmart/hrAndFoodmart.json");
+    }
+
+    /**
+     * Get a root schema from a data context
+     * @return
+     */
+    public static SchemaPlus getRootSchemaFromDataContext(DataContext dataContext){
+        return dataContext.getRootSchema();
     }
 }

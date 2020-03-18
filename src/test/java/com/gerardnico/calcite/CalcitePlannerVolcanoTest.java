@@ -53,10 +53,12 @@ public class CalcitePlannerVolcanoTest {
          */
         RelNode sqlNode = relBuilder
                 .scan("emps")
-                .scan("depts")
-                .join(JoinRelType.INNER, "deptno")
-                .filter(relBuilder.equals(relBuilder.field("empid"), relBuilder.literal(100)))
-                .project(relBuilder.field("name"))
+//                .scan("depts")
+//                .join(JoinRelType.INNER, "deptno")
+//                .filter(relBuilder.equals(relBuilder.field("empid"), relBuilder.literal(100)))
+//                .project(relBuilder.field("name"))
+                .aggregate(relBuilder.groupKey(),
+                        relBuilder.count(false, "C"))
                 .build();
 
         /**
@@ -97,8 +99,12 @@ public class CalcitePlannerVolcanoTest {
         System.out.println("This means we can now execute the optimized query and get a result.");
         System.out.println("----------------------------");
 
-        // Not working
-        // CalciteRel.executeAndPrint(optimized);
+        /**
+         * Run
+         * The runner use a JDBC connection, we need then to build
+         * the schema, that's why we pass the schema
+         */
+        CalciteRel.executeAndPrint(optimized, config.getDefaultSchema());
 
 
     }

@@ -1,0 +1,25 @@
+# Configuration file for Travis continuous integration.
+# See https://travis-ci.org/apache/calcite
+language: java
+matrix:
+  fast_finish: true
+  include:
+    - jdk: openjdk8
+branches:
+  only:
+    - master
+install: true
+script:
+  - ./gradlew --no-daemon build
+git:
+  depth: 100
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+# End .travis.yml

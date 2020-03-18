@@ -155,4 +155,24 @@ public class CalciteRel {
 
 
     }
+
+    /**
+     * Utility function to:
+     *   * print a relational expression
+     *   * print the SQL equivalent
+     *   * to run it
+     * @param relNode
+     */
+    public static void showExplainSqlAndRun(RelNode relNode){
+        System.out.println("Print the relational expression");
+        CalciteRel.print(relNode);
+        System.out.println();
+
+        System.out.println("Print the SQL");
+        String sql = CalciteRel.fromRelNodeToSql(relNode, CalciteSqlDialect.getDialect(CalciteSqlDialect.DIALECT.ANSI));
+        System.out.println(sql);
+
+        System.out.println("Execute the relational expression");
+        CalciteRel.executeAndPrint(relNode);
+    }
 }

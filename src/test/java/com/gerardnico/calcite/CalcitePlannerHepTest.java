@@ -70,5 +70,9 @@ public class CalcitePlannerHepTest {
         System.out.println("----------------------------");
         CalciteRel.explain(bestRelNode);
 
+        /**
+         * Execute
+         */
+        CalciteRel.executeQuery(bestRelNode);
     }
 }

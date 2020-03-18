@@ -55,8 +55,8 @@ public class CalciteRel {
     }
 
     /**
-     *
      * Explain is just a {@link #print(RelNode)}
+     *
      * @param relNode
      */
     public static void explain(RelNode relNode) {
@@ -65,8 +65,8 @@ public class CalciteRel {
     }
 
     /**
-     *
      * Explain is just a {@link #print(RelNode)}
+     *
      * @param relNode
      */
     public static void explainAll(RelNode relNode) {
@@ -83,17 +83,22 @@ public class CalciteRel {
     }
 
 
-
     /**
-     * Execute a relNode and return the result set
+     * Execute a logical relNode and return the result set
      *
      * @param relNode
      * @return
      */
     public static ResultSet executeQuery(RelNode relNode) {
-        return executeQuery(relNode,null);
+        return executeQuery(relNode, null);
     }
 
+    /**
+     *
+     * @param relNode
+     * @param defaultSchema - the schema only if the relNode is physical
+     * @return
+     */
     public static ResultSet executeQuery(RelNode relNode, SchemaPlus defaultSchema) {
         PreparedStatement run = CalciteRelRunners.run(relNode, defaultSchema);
         try {
@@ -109,7 +114,7 @@ public class CalciteRel {
      * @param relNode
      */
     public static void executeAndPrint(RelNode relNode) {
-        executeAndPrint(relNode,null);
+        executeAndPrint(relNode, null);
     }
 
     /**
@@ -133,21 +138,20 @@ public class CalciteRel {
     }
 
     /**
-     *
      * @param relRoot
      * @return a logical plan
      */
-    public static RelNode getLogicalPlan(RelRoot relRoot){
+    public static RelNode getLogicalPlan(RelRoot relRoot) {
         return relRoot.project();
     }
 
     public static void executeAndPrint(RelNode relNode, SchemaPlus defaultSchema) {
 
-            try (ResultSet resultSet = executeQuery(relNode, defaultSchema)) {
-                CalciteJdbc.printResultSet(resultSet);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        try (ResultSet resultSet = executeQuery(relNode, defaultSchema)) {
+            CalciteJdbc.printResultSet(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

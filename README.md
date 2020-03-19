@@ -11,11 +11,14 @@ A repository of [Calcite](https://calcite.apache.org/) demo's
 > (ie schema in the code) but in practice, you would connect to a data store (database, adapter) to get a schema.
 
 
-## Demos
+## Getting Started Demos
 
-  * [HelloWorld](src/main/java/com/gerardnico/calcite/demo/HelloWorld.java) - A query (The first demo of the doc)
-  * [Query Planning process](src/test/java/com/gerardnico/calcite/CalciteFrameworksTest.java) - parse sql, validate, transform to relation expression and execute with a [Planner](https://github.com/apache/calcite/blob/master/core/src/main/java/org/apache/calcite/tools/Planner.java)
+  * [Getting Started Article](https://gerardnico.com/db/calcite/getting_started) 
+    * [Getting Started Code](src/test/java/com/gerardnico/calcite/CalciteFrameworksTest.java) - parse sql, validate, transform to relation expression and execute with a [Planner](https://github.com/apache/calcite/blob/master/core/src/main/java/org/apache/calcite/tools/Planner.java)
 
+  * [HelloWorld of the official documentation](https://calcite.apache.org/docs/index.html)
+    * [HelloWorld Code](src/main/java/com/gerardnico/calcite/demo/HelloWorld.java) - A query (The first demo of the doc)
+  
 ## Demo Schema and Catalog
         
   * [Reflective Schema](src/test/java/com/gerardnico/calcite/CalciteSchemaTest.java) - Shows how to create a schema from Java Object via reflexion
@@ -35,7 +38,7 @@ There is also other [node type](https://github.com/apache/calcite/tree/master/co
   * ...
 
 
-## Demo Relational Expression
+## Demo Logical Relational Expression
 
  * [Relational Logical Expression](src/test/java/com/gerardnico/calcite/CalciteRelLogicalExpressionTest.java) - shows how to create several relational logical expression, print the sql and execute them
  * [Relational Expression from Jdbc Schema](src/test/java/com/gerardnico/calcite/CalciteRelJdbcTest.java) From RelBuilder based on a Jdbc data store, build a relational expression and transform it to SQL.

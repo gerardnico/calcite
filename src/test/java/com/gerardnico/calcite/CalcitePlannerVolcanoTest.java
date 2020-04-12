@@ -2,6 +2,7 @@ package com.gerardnico.calcite;
 
 import org.apache.calcite.adapter.enumerable.EnumerableConvention;
 import org.apache.calcite.plan.RelOptCluster;
+import org.apache.calcite.plan.RelOptCost;
 import org.apache.calcite.plan.RelTraitSet;
 import org.apache.calcite.plan.hep.HepPlanner;
 import org.apache.calcite.plan.hep.HepProgram;
@@ -98,6 +99,20 @@ public class CalcitePlannerVolcanoTest {
         System.out.println("Logical operators have been replaced with enumerable operators.");
         System.out.println("This means we can now execute the optimized query and get a result.");
         System.out.println("----------------------------");
+
+        /**
+         * Cost
+         */
+        RelOptCost cost = planner.getCost(optimized);
+        double rows = cost.getRows();
+        double cpu = cost.getCpu();
+        double io = cost.getIo();
+        System.out.println("----------------------------");
+        System.out.println("Cost");
+        System.out.println("----------------------------");
+        System.out.println("Rows: "+rows);
+        System.out.println("Cpu: "+cpu);
+        System.out.println("Io: "+io);
 
         /**
          * Run

@@ -43,10 +43,10 @@ There is also other [node type](https://github.com/apache/calcite/tree/master/co
  * [Relational Logical Expression](src/test/java/com/gerardnico/calcite/CalciteRelLogicalExpressionTest.java) - shows how to create several relational logical expression, print the sql and execute them
  * [Relational Expression from Jdbc Schema](src/test/java/com/gerardnico/calcite/CalciteRelJdbcTest.java) From RelBuilder based on a Jdbc data store, build a relational expression and transform it to SQL.
 
-## Demo Optimization
+## Demo Optimization / Cost
    
   * [Relational Expression Optimization with the HepPlanner](src/test/java/com/gerardnico/calcite/CalcitePlannerHepTest.java) - shows the filter early optimization
-  * [Relational Expression Optimization  with the Volcano Planner](src/test/java/com/gerardnico/calcite/CalcitePlannerVolcanoTest.java) - optimization with the Volcano Planner
+  * [Relational Expression Optimization  with the Volcano Planner (and cost)](src/test/java/com/gerardnico/calcite/CalcitePlannerVolcanoTest.java) - optimization with the Volcano Planner
 
  
   
